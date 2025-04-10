@@ -6,10 +6,18 @@
             <file>file:/C:/Users/Estudiantes/Documents/NetBeansProjects/MotoRepuestosMVC/src/Modelo/Compra.java</file>
             <file>file:/C:/Users/Estudiantes/Documents/NetBeansProjects/MotoRepuestosMVC/src/Modelo/Venta.java</file>
             <file>file:/C:/Users/Estudiantes/Documents/NetBeansProjects/MotoRepuestosMVC/src/Modelo/Producto.java</file>
-            <file>file:/C:/Users/Estudiantes/Documents/NetBeansProjects/MotoRepuestosMVC/src/Modelo/Proveedor.java</file>
             <file>file:/C:/Users/Estudiantes/Documents/NetBeansProjects/MotoRepuestosMVC/src/Modelo/Cliente.java</file>
             <file>file:/C:/Users/Estudiantes/Documents/NetBeansProjects/MotoRepuestosMVC/src/Modelo/DetalleVenta.java</file>
             <file>file:/C:/Users/Estudiantes/Documents/NetBeansProjects/MotoRepuestosMVC/src/Modelo/DetalleCompra.java</file>
+            <file>file:/C:/Users/Estudiantes/Documents/NetBeansProjects/MotoRepuestosMVC/src/Util/ConexionDB.java</file>
+            <file>file:/C:/Users/Estudiantes/Documents/NetBeansProjects/MotoRepuestosMVC/src/DAO/ClienteDAO.java</file>
+            <file>file:/C:/Users/Estudiantes/Documents/NetBeansProjects/MotoRepuestosMVC/src/DAO/CompraDAO.java</file>
+            <file>file:/C:/Users/Estudiantes/Documents/NetBeansProjects/MotoRepuestosMVC/src/Modelo/Proveedor.java</file>
+            <file>file:/C:/Users/Estudiantes/Documents/NetBeansProjects/MotoRepuestosMVC/src/DAO/ProveedorDAO.java</file>
+            <file>file:/C:/Users/Estudiantes/Documents/NetBeansProjects/MotoRepuestosMVC/src/DAO/ProductoDAO.java</file>
+            <file>file:/C:/Users/Estudiantes/Documents/NetBeansProjects/MotoRepuestosMVC/src/DAO/VentaDAO.java</file>
+            <file>file:/C:/Users/Estudiantes/Documents/NetBeansProjects/MotoRepuestosMVC/src/DAO/DetalleVentaDAO.java</file>
+            <file>file:/C:/Users/Estudiantes/Documents/NetBeansProjects/MotoRepuestosMVC/src/DAO/DetalleCompraDAO.java</file>
         </group>
     </open-files>
 </project-private>

@@ -24,7 +24,7 @@ public class VentaDAO {
             stmt.executeUpdate();
         }
     }
-    public List<Venta> leerTodasCategorias() throws SQLException {
+    public List<Venta> leerTodasVentas() throws SQLException {
         String sql = "SELECT * FROM Ventas";
         List<Venta> ventas = new ArrayList<>();
 
@@ -41,4 +41,40 @@ public class VentaDAO {
         }
         return ventas;
     }
+    public void actualizarCompra(Venta venta) throws SQLException {
+        String sql = "UPDATE Ventas SET Fecha_Venta = ?, ID_Cliente = ? WHERE ID_Compra = ?";
+
+        try (Connection c = ConexionDB.getConnection(); PreparedStatement stmt = c.prepareStatement(sql)) {
+            stmt.setDate(1, new java.sql.Date(venta.getFecha_Venta().getTime()));
+            stmt.setInt(3, venta.getID_Cliente());
+            stmt.executeUpdate();
+        }
+    }
+
+    public void eliminarCompra(int ID_Venta) throws SQLException {
+        String sql = "DELETE FROM Ventas WHERE ID_Venta = ?";
+
+        try (Connection c = ConexionDB.getConnection(); PreparedStatement stmt = c.prepareStatement(sql)) {
+            stmt.setInt(1, ID_Venta);
+            stmt.executeUpdate();
+        }
+    }
+    public static void main(String[] args) {
+        try {
+            VentaDAO dao = new VentaDAO();
+
+
+            // Leer y mostrar todas las ventas para verificar
+            List<Venta> ventas = dao.leerTodasVentas();
+            System.out.println("Lista de ventas:");
+            for (Venta ven : ventas) {
+                System.out.println("ID: " + ven.getID_Venta()
+                        + ", Fecha: " + ven.getFecha_Venta()
+                        + ", Cliente: " + ven.getID_Cliente());
+            }
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+    }
+
 }

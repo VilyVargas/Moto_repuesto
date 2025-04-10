@@ -36,7 +36,7 @@ public class DetalleCompraDAO {
             ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 DetalleCompra detallescompra = new DetalleCompra();
-                detallescompra.setID_Detalle_Com(rs.getInt("ID_Venta"));
+                detallescompra.setID_Detalle_Com(rs.getInt("ID_Detalle_Com"));
                 detallescompra.setID_Producto(rs.getInt("ID_Producto"));
                 detallescompra.setID_Compra(rs.getInt("ID_Compra"));
                 detallescompra.setCantidad_com(rs.getInt("Cantidad_com"));
@@ -45,5 +45,25 @@ public class DetalleCompraDAO {
             }
         }
         return detalleCompras;
+    }
+    public void actualizarVenta(DetalleCompra detallecompra) throws SQLException {
+        String sql = "UPDATE Detalle_Compras SET ID_Detalle_Com = ?, ID_Compra = ?, Cantidad_com = ?, Precio_Com = ? WHERE ID_Detalle_Com = ?";
+
+        try (Connection c = ConexionDB.getConnection(); PreparedStatement stmt = c.prepareStatement(sql)) {
+            stmt.setInt(1, detallecompra.getID_Producto());
+            stmt.setInt(2, detallecompra.getID_Compra());
+            stmt.setInt(3, detallecompra.getCantidad_com());
+            stmt.setFloat(4, detallecompra.getPrecio_Com());
+            stmt.executeUpdate();
+        }
+    }
+
+    public void eliminarVenta(int ID_Detalle_Com) throws SQLException {
+        String sql = "DELETE FROM Detalle_Compras WHERE ID_Detalle_Com = ?";
+
+        try (Connection c = ConexionDB.getConnection(); PreparedStatement stmt = c.prepareStatement(sql)) {
+            stmt.setInt(1, ID_Detalle_Com);
+            stmt.executeUpdate();
+        }
     }
 }

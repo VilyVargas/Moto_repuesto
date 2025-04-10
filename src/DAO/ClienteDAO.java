@@ -39,7 +39,7 @@ public class ClienteDAO {
             ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 Cliente cliente = new Cliente();
-                cliente.setID_Cliente(rs.getInt("ID_Venta"));
+                cliente.setID_Cliente(rs.getInt("ID_Cliente"));
                 cliente.setNombre1(rs.getString("Nombre1"));
                 cliente.setNombre2(rs.getString("Nombre2"));
                 cliente.setApellidos1(rs.getString("Apellidos1"));
@@ -50,5 +50,27 @@ public class ClienteDAO {
             }
         }
         return clientes;
+    }
+     public void actualizarCliente(Cliente cliente) throws SQLException {
+    String sql = "UPDATE Clientes SET Nombre1 = ?, Nombre2 = ?, Apellidos1 = ?, Apellidos2 = ?, Cedula = ?, Telefono = ? WHERE id_cliente = ?";
+    
+    try (Connection c = ConexionDB.getConnection();
+         PreparedStatement stmt = c.prepareStatement(sql)) {
+        stmt.setString(1, cliente.getNombre1());
+        stmt.setString(2, cliente.getNombre2());
+        stmt.setString(3, cliente.getApellidos1());
+        stmt.setString(4, cliente.getApellidos2());
+        stmt.setString(5, cliente.getCedula());
+        stmt.setString(6, cliente.getTelefono());
+        stmt.executeUpdate();
+    }
+}
+     public void eliminarCategoria(int ID_Cliente) throws SQLException {
+        String sql = "DELETE FROM Clientes WHERE ID_Cliente = ?";
+
+        try (Connection c = ConexionDB.getConnection(); PreparedStatement stmt = c.prepareStatement(sql)) {
+            stmt.setInt(1, ID_Cliente);
+            stmt.executeUpdate();
+        }
     }
 }

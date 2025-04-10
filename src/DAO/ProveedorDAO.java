@@ -44,4 +44,23 @@ public class ProveedorDAO {
         }
         return proveedores;
     }
+    public void actualizarVenta(Proveedor proveedor) throws SQLException {
+        String sql = "UPDATE Proveedores SET getNombre_Prov = ?, getContacto = ?, getEmail = ? WHERE ID_Proveedor = ?";
+
+        try (Connection c = ConexionDB.getConnection(); PreparedStatement stmt = c.prepareStatement(sql)) {
+            stmt.setString(1, proveedor.getNombre_Prov());
+            stmt.setString(2, proveedor.getContacto());
+            stmt.setString(3, proveedor.getEmail());
+            stmt.executeUpdate();
+        }
+    }
+
+    public void eliminarVenta(int ID_Proveedor) throws SQLException {
+        String sql = "DELETE FROM Proveedores WHERE ID_Proveedor = ?";
+
+        try (Connection c = ConexionDB.getConnection(); PreparedStatement stmt = c.prepareStatement(sql)) {
+            stmt.setInt(1, ID_Proveedor);
+            stmt.executeUpdate();
+        }
+    }
 }

@@ -46,7 +46,7 @@ public class DetalleCompraDAO {
         }
         return detalleCompras;
     }
-    public void actualizarVenta(DetalleCompra detallecompra) throws SQLException {
+    public void actualizarDetalleCompra(DetalleCompra detallecompra) throws SQLException {
         String sql = "UPDATE Detalle_Compras SET ID_Detalle_Com = ?, ID_Compra = ?, Cantidad_com = ?, Precio_Com = ? WHERE ID_Detalle_Com = ?";
 
         try (Connection c = ConexionDB.getConnection(); PreparedStatement stmt = c.prepareStatement(sql)) {
@@ -58,7 +58,7 @@ public class DetalleCompraDAO {
         }
     }
 
-    public void eliminarVenta(int ID_Detalle_Com) throws SQLException {
+    public void eliminarDetalleCompra(int ID_Detalle_Com) throws SQLException {
         String sql = "DELETE FROM Detalle_Compras WHERE ID_Detalle_Com = ?";
 
         try (Connection c = ConexionDB.getConnection(); PreparedStatement stmt = c.prepareStatement(sql)) {

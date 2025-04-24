@@ -2,20 +2,6 @@ CREATE DATABASE Moto_Repuesto;
 
 USE Moto_Repuesto;
 
-CREATE TABLE Compras (
-ID_Compra INT AUTO_INCREMENT PRIMARY KEY,
-Fecha_compra DATE NOT NULL,
-ID_Proveedor INT,
-FOREIGN KEY (ID_Proveedor) REFERENCES Proveedores (ID_Proveedor)
-);
-
-CREATE TABLE Ventas (
-ID_Venta INT AUTO_INCREMENT PRIMARY KEY,
-Fecha_Venta DATE NOT NULL,
-ID_Cliente INT,
-FOREIGN KEY (ID_Cliente) REFERENCES Clientes (ID_Cliente)
-);
-
 CREATE TABLE Productos(
 ID_Producto INT AUTO_INCREMENT PRIMARY KEY,
 Nombre_P VARCHAR (100) NOT NULL,
@@ -38,6 +24,20 @@ Nombre_cli VARCHAR (60),
 Apellidos_cli VARCHAR(60),
 Cedula VARCHAR (60),
 Telefono VARCHAR(12)
+);
+
+CREATE TABLE Ventas (
+ID_Venta INT AUTO_INCREMENT PRIMARY KEY,
+Fecha_Venta DATE NOT NULL,
+ID_Cliente INT,
+FOREIGN KEY (ID_Cliente) REFERENCES Clientes (ID_Cliente)
+);
+
+CREATE TABLE Compras (
+ID_Compra INT AUTO_INCREMENT PRIMARY KEY,
+Fecha_compra DATE NOT NULL,
+ID_Proveedor INT,
+FOREIGN KEY (ID_Proveedor) REFERENCES Proveedores (ID_Proveedor)
 );
 
 CREATE TABLE Detalle_Ventas(
@@ -137,188 +137,3 @@ INSERT INTO Detalle_Ventas (ID_Venta, ID_Producto, Cantidad_ven, Precio_Ven) VAL
 (2, 2, 10, 50.00),
 (3, 3, 2, 150.00);
 
--- Ver todos los datos de la tabla Proveedores
-SELECT * FROM Proveedores;
-
--- Ver todos los datos de la tabla Clientes
-SELECT * FROM Clientes;
-
--- Ver todos los datos de la tabla Productos
-SELECT * FROM Productos;
-
--- Ver todos los datos de la tabla Compras
-SELECT * FROM Compras;
-
--- Ver todos los datos de la tabla Ventas
-SELECT * FROM Ventas;
-
--- Ver todos los datos de la tabla Precio_Compras
-SELECT * FROM Detalle_Compras;
-
--- Ver todos los datos de la tabla Precio_Ventas
-SELECT * FROM Detalle_Ventas;
-
- -- Consultas avanzadas 
- 
--- Productos con menos de 10 unidades disponibles
-
-SELECT Nombre_P, Cantidad 
-FROM Productos 
-WHERE Cantidad > 10;
-
-
-SELECT Co.ID_Compra, Co.Fecha_compra, P.Nombre_Prov, P.Contacto, P.Email
-FROM Compras Co
-INNER JOIN Proveedores P ON Co.ID_Proveedor = P.ID_Proveedor;
-
-SELECT DC.ID_Compra, C.Fecha_compra, P.Nombre_P, DC.Cantidad_com, DC.Precio_Com
-FROM Detalle_Compras DC
-INNER JOIN Compras C ON DC.ID_Compra = C.ID_Compra
-INNER JOIN Productos P ON DC.ID_Producto = P.ID_Producto;
-
-SELECT DV.ID_Venta, V.Fecha_Venta, P.Nombre_P, DV.Cantidad_ven, DV.Precio_Ven
-FROM Detalle_Ventas DV
-INNER JOIN Ventas V ON DV.ID_Venta = V.ID_Venta
-INNER JOIN Productos P ON DV.ID_Producto = P.ID_Producto;
-
-SELECT V.ID_Venta, V.Fecha_Venta, C.Nombre_cli, C.Apellidos_cli, C.Cedula, C.Telefono
-FROM Ventas V
-LEFT JOIN Clientes C ON V.ID_Cliente = C.ID_Cliente;
-
-
-SELECT Co.ID_Compra, Co.Fecha_compra, P.Nombre_Prov, P.Contacto, P.Email
-FROM Compras Co
-LEFT JOIN Proveedores P ON Co.ID_Proveedor = P.ID_Proveedor;
-
-
-SELECT DC.ID_Compra, P.Nombre_P, DC.Cantidad_com, DC.Precio_Com
-FROM Detalle_Compras DC
-LEFT JOIN Productos P ON DC.ID_Producto = P.ID_Producto;
-
-SELECT DV.ID_Venta, P.Nombre_P, DV.Cantidad_ven, DV.Precio_Ven
-FROM Detalle_Ventas DV
-LEFT JOIN Productos P ON DV.ID_Producto = P.ID_Producto;
-
-
--- Vista de Reporte
-
--- Mayor Stock
-CREATE VIEW Productos_Stock AS
-SELECT Nombre_P, Cantidad
-FROM Productos
-WHERE Cantidad > 10;
-
-SELECT * FROM Productos_Stock;
-
--- Menor Stock
-CREATE VIEW Productos_Bajo_Stock AS
-SELECT Nombre_P, Cantidad
-FROM Productos
-WHERE Cantidad <= 10;
-
-SELECT * FROM Productos_Bajo_Stock;
-
--- Productos mas Vendidos 
-
-CREATE VIEW Productos_Mas_Vendidos AS
-SELECT P.Nombre_P, SUM(DV.Cantidad_ven) AS Total_Vendido
-FROM Detalle_Ventas DV
-JOIN Productos P ON DV.ID_Producto = P.ID_Producto
-GROUP BY P.Nombre_P
-ORDER BY Total_Vendido DESC;
-
-SELECT * FROM Productos_Mas_Vendidos;
-
-
--- Mayor gasto por compra
-CREATE VIEW Gastos_Compras AS
-SELECT Co.ID_Compra, Co.Fecha_compra, P.Nombre_Prov,
-       SUM(DC.Cantidad_com * DC.Precio_Com) AS Total_Compra
-FROM Compras Co
-JOIN Proveedores P ON Co.ID_Proveedor = P.ID_Proveedor
-JOIN Detalle_Compras DC ON Co.ID_Compra = DC.ID_Compra
-GROUP BY Co.ID_Compra;
-
-SELECT * FROM Gastos_Compras;
-
--- Producto Menos Vendido
-CREATE VIEW Productos_No_Vendidos AS
-SELECT P.ID_Producto, P.Nombre_P, P.Cantidad
-FROM Productos P
-LEFT JOIN Detalle_Ventas DV ON P.ID_Producto = DV.ID_Producto
-WHERE DV.ID_Producto IS NULL
-ORDER BY P.Cantidad DESC;
-
-SELECT * FROM Productos_No_Vendidos;
-
--- Clientes mas Frecuentes 
-CREATE VIEW Clientes_Frecuentes AS
-SELECT C.ID_Cliente, C.Nombre_cli, C.Apellidos_cli, COUNT(V.ID_Venta) AS Total_Compras
-FROM Clientes C
-JOIN Ventas V ON C.ID_Cliente = V.ID_Cliente
-GROUP BY C.ID_Cliente
-ORDER BY Total_Compras DESC;
-
-SELECT * FROM Clientes_Frecuentes;
-
-
--- Ventas Por Fecha 
-CREATE VIEW Ventas_Por_Fecha AS
-SELECT V.Fecha_Venta,
-       P.Nombre_P AS Producto,
-       SUM(DV.Cantidad_ven) AS Total_Cantidad_Vendida,
-       SUM(DV.Cantidad_ven * DV.Precio_Ven) AS Total_Venta
-FROM Ventas V
-JOIN Detalle_Ventas DV ON V.ID_Venta = DV.ID_Venta
-JOIN Productos P ON DV.ID_Producto = P.ID_Producto
-GROUP BY V.Fecha_Venta, P.Nombre_P
-ORDER BY V.Fecha_Venta ASC, Total_Venta DESC;
-	
-DROP VIEW Ventas_Por_Fecha;
-
-
-DELIMITER //
-CREATE PROCEDURE RegistrarCompra(
-    IN fecha DATE,
-    IN id_proveedor INT,
-    IN id_producto INT,
-    IN cantidad INT,
-    IN precio DOUBLE
-)BEGIN
-    DECLARE nueva_compra_id INT;
-    INSERT INTO Compras (Fecha_compra, ID_Proveedor)
-    VALUES (fecha, id_proveedor);
-    SET nueva_compra_id = LAST_INSERT_ID();
-    INSERT INTO Detalle_Compras (ID_Compra, ID_Producto, Cantidad_com, Precio_Com)
-    VALUES (nueva_compra_id, id_producto, cantidad, precio);
-    UPDATE Productos
-    SET Cantidad = Cantidad + cantidad
-    WHERE ID_Producto = id_producto;
-END //
-DELIMITER ;
-
-CALL RegistrarCompra ('2024-04-20', 1, 2, 10, 30.00);
-
-
-DELIMITER //
-CREATE PROCEDURE RegistrarVenta(
-    IN fecha DATE,
-    IN id_cliente INT,
-    IN id_producto INT,
-    IN cantidad INT,
-    IN precio DOUBLE
-)
-BEGIN
-    DECLARE nueva_venta_id INT;
-    INSERT INTO Ventas (Fecha_Venta, ID_Cliente)
-    VALUES (fecha, id_cliente);
-    SET nueva_venta_id = LAST_INSERT_ID();
-    INSERT INTO Detalle_Ventas (ID_Venta, ID_Producto, Cantidad_ven, Precio_Ven)
-    VALUES (nueva_venta_id, id_producto, cantidad, precio);
-    UPDATE Productos
-    SET Cantidad = Cantidad - cantidad
-    WHERE ID_Producto = id_producto;
-END //
-DELIMITER ;
-
-CALL RegistrarVenta(2024-04-22, 2, 3, 5, 150.00);

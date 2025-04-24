@@ -65,4 +65,5 @@ public class ProductoControlador {
             JOptionPane.showMessageDialog(null, "Error al eliminar el producto: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+    
 }

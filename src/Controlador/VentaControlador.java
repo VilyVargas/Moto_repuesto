@@ -21,7 +21,7 @@ public class VentaControlador {
     }
     // Método para crear una nueva venta con sus detalles
 
-    public void crearVenta(Date fechaVenta, int ID_Cliente, List<DetalleVenta> detalles) {
+    public void crearVenta( Date fechaVenta, int ID_Cliente, List<DetalleVenta> detalles) {
         try {
             Venta venta = new Venta();
             venta.setFecha_Venta(fechaVenta);

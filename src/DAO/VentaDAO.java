@@ -11,18 +11,34 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.sql.Statement;
 import java.util.List;
 
 public class VentaDAO {
-    public void crearVenta(Venta venta) throws SQLException {
-        String sql = "INSERT INTO Ventas (Fecha_Venta, ID_Cliente) VALUES (?, ?)";
-        try (Connection c = ConexionDB.getConnection();
-             PreparedStatement stmt = c.prepareStatement(sql)) {
+    //Método de VentaDAO
+    public int crearVenta(Venta venta) throws SQLException {
+        String sql = """
+        INSERT INTO Ventas (
+            ID_Venta,  
+            fecha_venta, 
+            ID_Cliente
+        ) VALUES (?, ?, ?, ?)""";
+        int generatedId = -1;
+
+        try (Connection c = ConexionDB.getConnection(); PreparedStatement stmt = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1, venta.getID_Venta());
             stmt.setDate(2, (java.sql.Date) venta.getFecha_Venta());
-            stmt.setInt(3, venta.getID_Cliente());
+            stmt.setInt(4, venta.getID_Cliente());
             stmt.executeUpdate();
+
+            // Obtener el ID generado
+            try (ResultSet rs = stmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    generatedId = rs.getInt(1);
+                }
+            }
         }
+        return generatedId;
     }
     public List<Venta> leerTodasVentas() throws SQLException {
         String sql = "SELECT * FROM Ventas";

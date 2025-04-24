@@ -67,5 +67,4 @@ public class ClienteControlador {
             JOptionPane.showMessageDialog(null, "Error al eliminar el cliente: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
 }

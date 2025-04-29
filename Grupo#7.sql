@@ -412,3 +412,104 @@ CALL RegistrarCompra('2025-04-28', 1, 2, 50, 30.00);
 CALL RegistrarVenta('2025-04-28', 2, 3, 5, 50.00);
 CALL EliminarCliente(1);
 CALL ActualizarCliente(1, 'Luis', 'Fernando', 'Martínez', 'Ramírez', '987654321', '3106549870');
+
+-- ObtenerNombreCompletoCliente
+DELIMITER //
+CREATE FUNCTION ObtenerNombreCompletoCliente(p_ID_Cliente INT)
+RETURNS VARCHAR(255)
+DETERMINISTIC
+BEGIN
+    DECLARE nombre_completo VARCHAR(255);
+
+    SELECT CONCAT_WS(' ', Nombre1, Nombre2, Apellidos1, Apellidos2)
+    INTO nombre_completo
+    FROM Clientes
+    WHERE ID_Cliente = p_ID_Cliente;
+
+    RETURN nombre_completo;
+END //
+DELIMITER ;
+
+SELECT ObtenerNombreCompletoCliente(2);
+
+-- TotalVentasProducto
+DELIMITER //
+CREATE FUNCTION TotalVentasProducto(p_ID_Producto INT)
+RETURNS FLOAT
+DETERMINISTIC
+BEGIN
+    DECLARE total FLOAT;
+
+    SELECT IFNULL(SUM(Cantidad_ven * Precio_Ven), 0)
+    INTO total
+    FROM Detalle_Ventas
+    WHERE ID_Producto = p_ID_Producto;
+
+    RETURN total;
+END //
+DELIMITER ;
+
+SELECT Nombre_P, TotalVentasProducto(ID_Producto) AS Total_Vendido
+FROM Productos;
+
+
+-- TotalComprasProducto
+DELIMITER //
+CREATE FUNCTION TotalComprasProducto(p_ID_Producto INT)
+RETURNS FLOAT
+DETERMINISTIC
+BEGIN
+    DECLARE total FLOAT;
+
+    SELECT IFNULL(SUM(Cantidad_com * Precio_Com), 0)
+    INTO total
+    FROM Detalle_Compras
+    WHERE ID_Producto = p_ID_Producto;
+
+    RETURN total;
+END //
+DELIMITER ;
+
+SELECT Nombre_P, TotalComprasProducto(ID_Producto) AS Total_Comprado
+FROM Productos;
+
+
+-- StockProducto
+DELIMITER //
+CREATE FUNCTION StockProducto(p_ID_Producto INT)
+RETURNS INT
+DETERMINISTIC
+BEGIN
+    DECLARE stock INT;
+
+    SELECT Cantidad
+    INTO stock
+    FROM Productos
+    WHERE ID_Producto = p_ID_Producto;
+
+    RETURN stock;
+END //
+DELIMITER ;
+
+SELECT Nombre_P, StockProducto(ID_Producto) AS Stock_Actual
+FROM Productos;
+
+
+-- ClienteActivo
+DELIMITER //
+CREATE FUNCTION ClienteActivo(p_ID_Cliente INT)
+RETURNS BOOLEAN
+DETERMINISTIC
+BEGIN
+    DECLARE existe INT;
+
+    SELECT COUNT(*) INTO existe
+    FROM Ventas
+    WHERE ID_Cliente = p_ID_Cliente;
+
+    RETURN existe > 0;
+END //
+DELIMITER ;
+
+SELECT ID_Cliente, ObtenerNombreCompletoCliente(ID_Cliente) AS Nombre, ClienteActivo(ID_Cliente) AS Ha_Comprado
+FROM Clientes;

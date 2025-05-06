@@ -30,7 +30,7 @@ public class VistaVenta extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         opciones = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        TableVenta = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jTextField9 = new javax.swing.JTextField();
         jTextField10 = new javax.swing.JTextField();
@@ -53,7 +53,7 @@ public class VistaVenta extends javax.swing.JPanel {
 
         opciones.setBackground(new java.awt.Color(204, 204, 204));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        TableVenta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -63,8 +63,16 @@ public class VistaVenta extends javax.swing.JPanel {
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(TableVenta);
 
         jPanel2.setBackground(new java.awt.Color(204, 204, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(249, 8, 8)));
@@ -247,6 +255,7 @@ public class VistaVenta extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable TableVenta;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -259,7 +268,6 @@ public class VistaVenta extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
     private javax.swing.JTextField jTextField6;

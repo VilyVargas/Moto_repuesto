@@ -16,7 +16,14 @@ public class VistaPrincipal extends javax.swing.JFrame {
     public VistaPrincipal() {
         initComponents();
          opciones.addTab("Productos", new VistaProducto());
+         opciones.addTab("Cliente", new VistaCliente());
+         opciones.addTab("Proveedor", new VistaProveedor());
+         opciones.addTab("DetalleVenta", new VistaDetalleVenta());
+         opciones.addTab("DetalleCompra", new VistaDetalleCompra());
+         opciones.addTab("Compra", new VistaCompra());
+         opciones.addTab("Ventas", new VistaVenta());
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.

@@ -18,14 +18,4 @@ public class ConexionDB {
             throw new SQLException("Driver de MySQL no encontrado", e);
         }
     }
-
-    public static void main(String[] args) {
-        try {
-            Connection c = getConnection();
-            System.out.println("¡Conexión exitosa a Moto_Repuesto!");
-            c.close();
-        } catch (SQLException e) {
-            System.err.println("Error de conexión: " + e.getMessage());
-        }
-    }
 }

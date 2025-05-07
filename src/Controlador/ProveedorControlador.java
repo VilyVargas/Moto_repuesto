@@ -30,7 +30,7 @@ public class ProveedorControlador {
         
             public List<Proveedor> obtenerTodosProveedores() {
         try {
-            return proveedorDAO.leerTodasCategorias();
+            return proveedorDAO.leerTodosProveedor();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al leer las categorías: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             return null;

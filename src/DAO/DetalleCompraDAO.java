@@ -27,7 +27,7 @@ public class DetalleCompraDAO {
             stmt.executeUpdate();
         }
     }
-    public List<DetalleCompra> leerTodasCategorias() throws SQLException {
+    public List<DetalleCompra> leerTodoDetallesCompra() throws SQLException {
         String sql = "SELECT * FROM Detalle_Compras";
         List<DetalleCompra> detalleCompras = new ArrayList<>();
 

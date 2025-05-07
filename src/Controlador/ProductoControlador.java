@@ -50,7 +50,7 @@ public class ProductoControlador {
             producto.setCantidad(Cantidad);
             producto.setPreciodecom(Preciodecom);
             producto.setPreciodeven(Preciodeven);
-            productoDAO.actualizarCliente(producto);
+            productoDAO.actualizarProducto(producto);
             JOptionPane.showMessageDialog(null, "Producto actualizado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al actualizar el producto: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -59,7 +59,7 @@ public class ProductoControlador {
     // Método para eliminar un producto
     public void eliminarProducto(int ID_Producto) {
         try {
-            productoDAO.eliminarCategoria(ID_Producto);
+            productoDAO.eliminarCliente(ID_Producto);
             JOptionPane.showMessageDialog(null, "Producto eliminado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al eliminar el producto: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

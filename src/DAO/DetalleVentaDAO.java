@@ -30,7 +30,7 @@ public class DetalleVentaDAO {
             stmt.executeUpdate();
         }
     }
-     public List<DetalleVenta> leerTodasCategorias() throws SQLException {
+     public List<DetalleVenta> leerTodoDetalleVenta() throws SQLException {
         String sql = "SELECT * FROM Detalle_Ventas";
         List<DetalleVenta> detalleventas = new ArrayList<>();
 

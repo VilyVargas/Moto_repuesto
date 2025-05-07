@@ -60,7 +60,7 @@ public class VentaControlador {
             venta.setID_Venta(ID_Venta);
             venta.setFecha_Venta(fechaVenta);
             venta.setID_Cliente(ID_Cliente);
-            ventaDAO.actualizarCompra(venta);
+            ventaDAO.actualizarVenta(venta);
             JOptionPane.showMessageDialog(null, "Venta actualizada exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al actualizar la venta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -69,7 +69,7 @@ public class VentaControlador {
     // Método para eliminar una venta
     public void eliminarVenta(int ID_Venta) {
         try {
-            ventaDAO.eliminarCompra(ID_Venta);
+            ventaDAO.eliminarVenta(ID_Venta);
             JOptionPane.showMessageDialog(null, "Venta eliminada exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al eliminar la venta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

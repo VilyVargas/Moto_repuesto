@@ -26,7 +26,7 @@ public class ProveedorDAO {
             stmt.executeUpdate();
         }
     }
-    public List<Proveedor> leerTodasCategorias() throws SQLException {
+    public List<Proveedor> leerTodosProveedor() throws SQLException {
         String sql = "SELECT * FROM Proveedores";
         List<Proveedor> proveedores = new ArrayList<>();
 

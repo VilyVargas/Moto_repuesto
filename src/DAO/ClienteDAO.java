@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DAO;
 
 import Modelo.Cliente;
@@ -18,7 +14,7 @@ import java.util.List;
 
 public class ClienteDAO {
      public void crearCliente(Cliente cliente) throws SQLException {
-        String sql = "INSERT INTO Clientes (Nombre1, Nombre2, Apellidos1, Apellidos2, Cedula, Telefono) VALUES (?, ?)";
+        String sql = "INSERT  INTO Clientes (Nombre1, Nombre2, Apellidos1, Apellidos2, Cedula, Telefono) VALUES (?,?,?,?,?,?)";
         try (Connection c = ConexionDB.getConnection();
              PreparedStatement stmt = c.prepareStatement(sql)) {
             stmt.setString(1, cliente.getNombre1());
@@ -30,7 +26,7 @@ public class ClienteDAO {
             stmt.executeUpdate();
         }
     }
-     public List<Cliente> leerTodasCategorias() throws SQLException {
+     public List<Cliente> leerClientes() throws SQLException {
         String sql = "SELECT * FROM Clientes";
         List<Cliente> clientes = new ArrayList<>();
 
@@ -62,10 +58,11 @@ public class ClienteDAO {
         stmt.setString(4, cliente.getApellidos2());
         stmt.setString(5, cliente.getCedula());
         stmt.setString(6, cliente.getTelefono());
+        stmt.setInt(7, cliente.getID_Cliente());
         stmt.executeUpdate();
     }
 }
-     public void eliminarCategoria(int ID_Cliente) throws SQLException {
+     public void eliminarCliente(int ID_Cliente) throws SQLException {
         String sql = "DELETE FROM Clientes WHERE ID_Cliente = ?";
 
         try (Connection c = ConexionDB.getConnection(); PreparedStatement stmt = c.prepareStatement(sql)) {

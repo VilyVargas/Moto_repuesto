@@ -31,7 +31,7 @@ public class DetalleCompraControlador {
      // Método para obtener todos los detalles de compra
     public List<DetalleCompra> obtenerTodosDetallesCompra() {
         try {
-            return detalleCompraDAO.leerTodasCategorias();
+            return detalleCompraDAO.leerTodoDetallesCompra();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al leer los detalles de compra: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             return null;

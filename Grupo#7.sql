@@ -4,10 +4,10 @@ USE Moto_Repuesto;
 
 CREATE TABLE Clientes(
 ID_Cliente INT AUTO_INCREMENT PRIMARY KEY,
-Nombre1 VARCHAR (60),
-Nombre2 VARCHAR (60),
-Apellidos1 VARCHAR(60),
-Apellidos2 VARCHAR(60),
+Nombre1 VARCHAR (60) NOT NULL,
+Nombre2 VARCHAR (60)NOT NULL,
+Apellidos1 VARCHAR(60)NOT NULL,
+Apellidos2 VARCHAR(60)NOT NULL,
 Cedula VARCHAR (60),
 Telefono VARCHAR(12)
 );
@@ -76,9 +76,8 @@ INSERT INTO Proveedores (Nombre_Prov, Contacto, Email) VALUES
 
 -- Insertar datos en Clientes
 INSERT INTO Clientes (Nombre1, Nombre2, Apellidos1, Apellidos2, Cedula, Telefono) VALUES
-('Juan', NULL, 'Pérez', NULL, '123456789', '3216549870'),
-('María', NULL, 'López', NULL, '987654321', '3007894561'),
-('Carlos', NULL, 'Gómez', NULL, '567123890', '3159874562');
+('Juan',  'edgardo', 'Pérez', 'Lopez', '123456789', '3216549870');
+
 
 -- Insertar datos en Productos
 INSERT INTO Productos (Nombre_P, Descripcion, Cantidad, Preciodecom, Preciodeven) VALUES
@@ -513,3 +512,269 @@ DELIMITER ;
 
 SELECT ID_Cliente, ObtenerNombreCompletoCliente(ID_Cliente) AS Nombre, ClienteActivo(ID_Cliente) AS Ha_Comprado
 FROM Clientes;
+
+DELIMITER //
+
+CREATE PROCEDURE ActualizarVenta(
+    IN p_ID_Venta INT,
+    IN p_NuevaFecha DATE,
+    IN p_ID_Cliente INT
+)
+BEGIN
+    UPDATE Ventas
+    SET Fecha_Venta = p_NuevaFecha,
+        ID_Cliente = p_ID_Cliente
+    WHERE ID_Venta = p_ID_Venta;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE ActualizarCompra(
+    IN p_ID_Compra INT,
+    IN p_NuevaFecha DATE,
+    IN p_ID_Proveedor INT
+)
+BEGIN
+    UPDATE Compras
+    SET Fecha_Compra = p_NuevaFecha,
+        ID_Proveedor = p_ID_Proveedor
+    WHERE ID_Compra = p_ID_Compra;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE ActualizarProducto(
+    IN p_ID_Producto INT,
+    IN p_NuevoNombre VARCHAR(50),
+    IN p_NuevaDescripcion VARCHAR(100),
+    IN p_NuevaMarca VARCHAR(50),
+    IN p_NuevaCantidad INT,
+    IN p_NuevoPrecio DECIMAL(10,2)
+)
+BEGIN
+    UPDATE Productos
+    SET Nombre_P = p_NuevoNombre,
+        Descripcion_P = p_NuevaDescripcion,
+        Marca = p_NuevaMarca,
+        Cantidad = p_NuevaCantidad,
+        Precio_Unitario = p_NuevoPrecio
+    WHERE ID_Producto = p_ID_Producto;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE ActualizarProveedor(
+    IN p_ID_Proveedor INT,
+    IN p_NuevoNombre VARCHAR(50),
+    IN p_NuevaDireccion VARCHAR(100),
+    IN p_NuevoTelefono VARCHAR(20)
+)
+BEGIN
+    UPDATE Proveedores
+    SET Nombre_Prov = p_NuevoNombre,
+        Direccion = p_NuevaDireccion,
+        Telefono = p_NuevoTelefono
+    WHERE ID_Proveedor = p_ID_Proveedor;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE EliminarVenta(
+    IN p_ID_Venta INT
+)
+BEGIN
+    -- Eliminar detalles primero
+    DELETE FROM Detalle_Ventas
+    WHERE ID_Venta = p_ID_Venta;
+
+    -- Luego eliminar la venta
+    DELETE FROM Ventas
+    WHERE ID_Venta = p_ID_Venta;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE EliminarCompra(
+    IN p_ID_Compra INT
+)
+BEGIN
+    -- Eliminar detalles primero
+    DELETE FROM Detalle_Compras
+    WHERE ID_Compra = p_ID_Compra;
+
+    -- Luego eliminar la compra
+    DELETE FROM Compras
+    WHERE ID_Compra = p_ID_Compra;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE EliminarProducto(
+    IN p_ID_Producto INT
+)
+BEGIN
+    -- Asegúrate de eliminar primero detalles relacionados, si se desea permitir
+    DELETE FROM Detalle_Ventas
+    WHERE ID_Producto = p_ID_Producto;
+
+    DELETE FROM Detalle_Compras
+    WHERE ID_Producto = p_ID_Producto;
+
+    -- Luego eliminar el producto
+    DELETE FROM Productos
+    WHERE ID_Producto = p_ID_Producto;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE EliminarProveedor(
+    IN p_ID_Proveedor INT
+)
+BEGIN
+    -- Eliminar primero las compras y sus detalles
+    DELETE FROM Detalle_Compras
+    WHERE ID_Compra IN (
+        SELECT ID_Compra FROM Compras WHERE ID_Proveedor = p_ID_Proveedor
+    );
+
+    DELETE FROM Compras
+    WHERE ID_Proveedor = p_ID_Proveedor;
+
+    -- Luego eliminar el proveedor
+    DELETE FROM Proveedores
+    WHERE ID_Proveedor = p_ID_Proveedor;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE EliminarProveedor(
+    IN p_ID_Proveedor INT
+)
+BEGIN
+    -- Eliminar primero las compras y sus detalles
+    DELETE FROM Detalle_Compras
+    WHERE ID_Compra IN (
+        SELECT ID_Compra FROM Compras WHERE ID_Proveedor = p_ID_Proveedor
+    );
+
+    DELETE FROM Compras
+    WHERE ID_Proveedor = p_ID_Proveedor;
+
+    -- Luego eliminar el proveedor
+    DELETE FROM Proveedores
+    WHERE ID_Proveedor = p_ID_Proveedor;
+END //
+
+DELIMITER ;
+
+
+DELIMITER //
+
+CREATE PROCEDURE EditarVenta(
+    IN p_ID_Venta INT,
+    IN p_ID_Cliente INT,
+    IN p_Fecha DATE,
+    IN p_Total DECIMAL(10,2)
+)
+BEGIN
+    UPDATE Ventas
+    SET ID_Cliente = p_ID_Cliente,
+        Fecha = p_Fecha,
+        Total = p_Total
+    WHERE ID_Venta = p_ID_Venta;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE EditarCompra(
+    IN p_ID_Compra INT,
+    IN p_ID_Proveedor INT,
+    IN p_Fecha DATE,
+    IN p_Total DECIMAL(10,2)
+)
+BEGIN
+    UPDATE Compras
+    SET ID_Proveedor = p_ID_Proveedor,
+        Fecha = p_Fecha,
+        Total = p_Total
+    WHERE ID_Compra = p_ID_Compra;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE EditarProducto(
+    IN p_ID_Producto INT,
+    IN p_Nombre VARCHAR(100),
+    IN p_Precio_Compra DECIMAL(10,2),
+    IN p_Precio_Venta DECIMAL(10,2),
+    IN p_Stock INT,
+    IN p_Descripcion TEXT
+)
+BEGIN
+    UPDATE Productos
+    SET Nombre = p_Nombre,
+        Precio_Compra = p_Precio_Compra,
+        Precio_Venta = p_Precio_Venta,
+        Stock = p_Stock,
+        Descripcion = p_Descripcion
+    WHERE ID_Producto = p_ID_Producto;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE EditarProveedor(
+    IN p_ID_Proveedor INT,
+    IN p_Nombre VARCHAR(100),
+    IN p_Telefono VARCHAR(20),
+    IN p_Direccion VARCHAR(255)
+)
+BEGIN
+    UPDATE Proveedores
+    SET Nombre = p_Nombre,
+        Telefono = p_Telefono,
+        Direccion = p_Direccion
+    WHERE ID_Proveedor = p_ID_Proveedor;
+END //
+
+DELIMITER ;
+
+
+DELIMITER //
+
+CREATE PROCEDURE EditarCliente(
+    IN p_ID_Cliente INT,
+    IN p_Nombre VARCHAR(100),
+    IN p_Telefono VARCHAR(20),
+    IN p_Direccion VARCHAR(255)
+)
+BEGIN
+    UPDATE Clientes
+    SET Nombre = p_Nombre,
+        Telefono = p_Telefono,
+        Direccion = p_Direccion
+    WHERE ID_Cliente = p_ID_Cliente;
+END //
+
+DELIMITER ;

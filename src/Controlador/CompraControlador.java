@@ -47,7 +47,7 @@ public class CompraControlador {
      // Método para obtener todas las compras
     public List<Compra> obtenerTodasCompras() {
         try {
-            return compraDAO.leerTodasCategorias();
+            return compraDAO.leerTodasCompras();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al leer las compras: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             return null;
@@ -76,44 +76,5 @@ public class CompraControlador {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al eliminar la compra: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }
-    
-     public static void main(String[] args) {
-        CompraControlador controlador = new CompraControlador();
-        
-        // Crear una lista de detalles de compra
-        List<DetalleCompra> detalles = new ArrayList<>();
-        
-        DetalleCompra detalle1 = new DetalleCompra();
-        detalle1.setID_Producto(1); // ID del producto
-        detalle1.setCantidad_com(10);   // Cantidad comprada
-        detalle1.setPrecio_Com(1000); // Precio de compra
-        
-        DetalleCompra detalle2 = new DetalleCompra();
-        detalle2.setID_Producto(2);
-        detalle2.setCantidad_com(5);
-        detalle2.setPrecio_Com(200);
-        
-        detalles.add(detalle1);
-        detalles.add(detalle2);
-
-        // Crear una compra (ID_Compra 1 de prueba)
-        controlador.crearCompra(1, new Date(), 1, detalles);
-        
-        // Leer todas las compras
-        List<Compra> compras = controlador.obtenerTodasCompras();
-        if (compras != null) {
-            System.out.println("Lista de compras:");
-            for (Compra c : compras) {
-                System.out.println("ID Compra: " + c.getID_Compra()
-                        + ", Fecha: " + c.getFecha_compra()
-                        + ", ID Proveedor: " + c.getID_proveedor());
-            }
-        }
-        // Actualizar una compra (ID 1)
-        controlador.actualizarCompra(1, new Date(), 2); // Cambiamos el proveedor
-        
-        // Eliminar una compra (ID 1)
-        controlador.eliminarCompra(1);
     }
 }

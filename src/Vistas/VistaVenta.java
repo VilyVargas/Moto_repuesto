@@ -3,18 +3,44 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package Vistas;
-
+import Controlador.VentaControlador;
+import Modelo.Venta;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import java.text.SimpleDateFormat;
 /**
  *
  * @author portatiles
  */
 public class VistaVenta extends javax.swing.JPanel {
+     private final VentaControlador VentaControlador;
+     
+       public void cargarDatosTabla() {
+        //Obtener todas las categorias del controlador
+        List<Venta> ventas = VentaControlador.obtenerTodasVentas();
+        if (ventas != null) {
+            // obtener el modelo existente de la tabla
+            DefaultTableModel model = (DefaultTableModel) TableVenta.getModel();
+            model.setRowCount(0);
+            //llenar las filas con los datos de categorias  
+            for (Venta ven : ventas) {
+                Object[] row = {
+                    ven.getID_Venta(),
+                    ven.getFecha_Venta(),
+                    ven.getID_Cliente()
+                };
+                model.addRow(row);
+            }
+        }
+    }
 
     /**
      * Creates new form VistaVenta
      */
     public VistaVenta() {
         initComponents();
+        this.VentaControlador = new VentaControlador();
+        cargarDatosTabla();
     }
 
     /**
@@ -33,8 +59,8 @@ public class VistaVenta extends javax.swing.JPanel {
         TableVenta = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jTextField9 = new javax.swing.JTextField();
-        jTextField10 = new javax.swing.JTextField();
-        jTextField11 = new javax.swing.JTextField();
+        jTextFecha_Venta = new javax.swing.JTextField();
+        jTextID_Cliente = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
@@ -82,15 +108,15 @@ public class VistaVenta extends javax.swing.JPanel {
             }
         });
 
-        jTextField10.addActionListener(new java.awt.event.ActionListener() {
+        jTextFecha_Venta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField10ActionPerformed(evt);
+                jTextFecha_VentaActionPerformed(evt);
             }
         });
 
-        jTextField11.addActionListener(new java.awt.event.ActionListener() {
+        jTextID_Cliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField11ActionPerformed(evt);
+                jTextID_ClienteActionPerformed(evt);
             }
         });
 
@@ -115,8 +141,8 @@ public class VistaVenta extends javax.swing.JPanel {
                     .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextID_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFecha_Venta, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(34, 34, 34))
         );
@@ -129,11 +155,11 @@ public class VistaVenta extends javax.swing.JPanel {
                     .addComponent(jLabel14))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFecha_Venta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextID_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel16))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -144,6 +170,11 @@ public class VistaVenta extends javax.swing.JPanel {
         jButton8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/agregar-contacto (2).png"))); // NOI18N
         jButton8.setText("Agregar");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AccionBotonGuardar(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar-usuario (1).png"))); // NOI18N
@@ -244,13 +275,41 @@ public class VistaVenta extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField9ActionPerformed
 
-    private void jTextField10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField10ActionPerformed
+    private void jTextFecha_VentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFecha_VentaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField10ActionPerformed
+    }//GEN-LAST:event_jTextFecha_VentaActionPerformed
 
-    private void jTextField11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField11ActionPerformed
+    private void jTextID_ClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextID_ClienteActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField11ActionPerformed
+    }//GEN-LAST:event_jTextID_ClienteActionPerformed
+
+    private void AccionBotonGuardar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AccionBotonGuardar
+        // TODO add your handling code here:
+        String Fecha_Ven = jTextFecha_Venta.getText();
+        String ID_Cli = jTextID_Cliente.getText();
+        
+        if (!Fecha_Ven.isEmpty() && !ID_Cli.isEmpty()){
+            try {
+                String Fecha_ven = jTextFecha_Venta.getText();  // Obtiene el texto del campo
+                SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd"); // Define el formato ;
+                int ID_cli = Integer.parseInt(ID_Cli.trim());
+
+                VentaControlador controlador = new VentaControlador();
+                controlador.crearVenta(Fecha_ven, ID_cli);
+
+                cargarDatosTabla();
+                jTextFecha_Venta.setText("");
+                jTextID_Cliente.setText(String.valueOf(ID_Cli));
+            } catch (NumberFormatException e) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Precio costo, precio venta y existencia deben ser valores numéricos.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "Por favor, llene todos los campos.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+}
+
+
+
+    }//GEN-LAST:event_AccionBotonGuardar
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -267,10 +326,10 @@ public class VistaVenta extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField11;
+    private javax.swing.JTextField jTextFecha_Venta;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField9;
+    private javax.swing.JTextField jTextID_Cliente;
     private javax.swing.JPanel opciones;
     // End of variables declaration//GEN-END:variables
 }

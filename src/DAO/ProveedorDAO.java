@@ -16,13 +16,12 @@ import java.util.List;
 
 public class ProveedorDAO {
     public void crearProveedor(Proveedor proveedor) throws SQLException {
-        String sql = "INSERT INTO Proveedores (Nombre_Prov, Contacto, Email) VALUES (?, ?)";
+        String sql = "INSERT INTO Proveedores (Nombre_Prov, Contacto, Email) VALUES (?,?,?)";
         try (Connection c = ConexionDB.getConnection();
              PreparedStatement stmt = c.prepareStatement(sql)) {
-            stmt.setInt(1, proveedor.getID_Proveedor());
-            stmt.setString(2, proveedor.getNombre_Prov());
-            stmt.setString(3, proveedor.getContacto());
-            stmt.setString(4, proveedor.getEmail());
+            stmt.setString(1, proveedor.getNombre_Prov());
+            stmt.setString(2, proveedor.getContacto());
+            stmt.setString(3, proveedor.getEmail());
             stmt.executeUpdate();
         }
     }
@@ -44,7 +43,7 @@ public class ProveedorDAO {
         }
         return proveedores;
     }
-    public void actualizarVenta(Proveedor proveedor) throws SQLException {
+    public void actualizarProveedor(Proveedor proveedor) throws SQLException {
         String sql = "UPDATE Proveedores SET getNombre_Prov = ?, getContacto = ?, getEmail = ? WHERE ID_Proveedor = ?";
 
         try (Connection c = ConexionDB.getConnection(); PreparedStatement stmt = c.prepareStatement(sql)) {
@@ -55,7 +54,7 @@ public class ProveedorDAO {
         }
     }
 
-    public void eliminarVenta(int ID_Proveedor) throws SQLException {
+    public void eliminarProveedor(int ID_Proveedor) throws SQLException {
         String sql = "DELETE FROM Proveedores WHERE ID_Proveedor = ?";
 
         try (Connection c = ConexionDB.getConnection(); PreparedStatement stmt = c.prepareStatement(sql)) {

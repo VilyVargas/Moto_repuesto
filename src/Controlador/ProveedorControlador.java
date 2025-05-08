@@ -42,16 +42,16 @@ public class ProveedorControlador {
             proveedor.setNombre_Prov(Nombre_Prov);
             proveedor.setContacto(Contacto);
             proveedor.setEmail(Email);
-            proveedorDAO.actualizarVenta(proveedor);
+            proveedorDAO.actualizarProveedor(proveedor);
             JOptionPane.showMessageDialog(null, "Categoría actualizada exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al actualizar la categoría: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     
-      public void eliminarCategoria(int id) {
+      public void eliminarProveedor(int id) {
         try {
-            proveedorDAO.eliminarVenta(id);
+            proveedorDAO.eliminarProveedor(id);
             JOptionPane.showMessageDialog(null, "Categoría eliminada exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al eliminar la categoría: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

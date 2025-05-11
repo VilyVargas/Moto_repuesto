@@ -952,6 +952,39 @@ BEGIN
 END //
 DELIMITER ;
 
+DELIMITER //
+
+-- 4) Total de compras realizadas por un cliente
+CREATE FUNCTION TotalComprasCliente(p_ID_Cliente INT)
+RETURNS INT
+DETERMINISTIC
+BEGIN
+  DECLARE total INT;
+  SELECT IFNULL(COUNT(*), 0) INTO total
+  FROM Ventas
+  WHERE ID_Cliente = p_ID_Cliente;
+  RETURN total;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+-- 5) Monto total vendido en una fecha específica
+CREATE FUNCTION TotalVentasEnFecha(p_Fecha DATE)
+RETURNS DECIMAL(12,2)
+DETERMINISTIC
+BEGIN
+  DECLARE monto DECIMAL(12,2);
+  SELECT IFNULL(SUM(DV.Cantidad_ven * DV.Precio_Ven), 0) INTO monto
+  FROM Ventas V
+  JOIN Detalle_Ventas DV ON V.ID_Venta = DV.ID_Venta
+  WHERE V.Fecha_Venta = p_Fecha;
+  RETURN monto;
+END //
+
+DELIMITER ;
+
 SELECT TotalStockGlobal();
 
 SELECT PromedioPrecioVenta();

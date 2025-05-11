@@ -6,10 +6,11 @@ package Vistas;
 
 /**
  *
- * @author portatiles
+ * @author dell
  */
 public class VistaDetalleVenta extends javax.swing.JPanel {
 
+    
     /**
      * Creates new form VistaDetalleVenta
      */

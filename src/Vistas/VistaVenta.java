@@ -1,18 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package Vistas;
+
 import Controlador.VentaControlador;
 import Modelo.Venta;
 import java.util.List;
+import java.time.LocalDateTime;
 import javax.swing.table.DefaultTableModel;
-import java.text.SimpleDateFormat;
-/**
- *
- * @author portatiles
- */
+import java.time.format.DateTimeFormatter;
+import Controlador.DetalleVentaControlador;
 public class VistaVenta extends javax.swing.JPanel {
+    
      private final VentaControlador VentaControlador;
      
        public void cargarDatosTabla() {
@@ -287,28 +283,24 @@ public class VistaVenta extends javax.swing.JPanel {
         // TODO add your handling code here:
         String Fecha_Ven = jTextFecha_Venta.getText();
         String ID_Cli = jTextID_Cliente.getText();
-        
-        if (!Fecha_Ven.isEmpty() && !ID_Cli.isEmpty()){
+
+        if (!ID_Cli.trim().isEmpty() && !Fecha_Ven.trim().isEmpty()) {
             try {
-                String Fecha_ven = jTextFecha_Venta.getText();  // Obtiene el texto del campo
-                SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd"); // Define el formato ;
-                int ID_cli = Integer.parseInt(ID_Cli.trim());
+                int id_cli = Integer.parseInt(ID_Cli.trim());
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+                LocalDateTime fecha_ven = LocalDateTime.parse(Fecha_Ven.trim(), formatter);
 
-                VentaControlador controlador = new VentaControlador();
-                controlador.crearVenta(Fecha_ven, ID_cli);
-
+                VentaControlador.crearVenta(fecha_ven, id_cli, detalles);
                 cargarDatosTabla();
+                jTextID_Cliente.setText("");
                 jTextFecha_Venta.setText("");
-                jTextID_Cliente.setText(String.valueOf(ID_Cli));
-            } catch (NumberFormatException e) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Precio costo, precio venta y existencia deben ser valores numéricos.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(this, "Orden guardada exitosamente", "Éxito", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception e) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Error al guardar la orden: " + e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            javax.swing.JOptionPane.showMessageDialog(this, "Por favor, llene todos los campos.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
-}
-
-
-
+            javax.swing.JOptionPane.showMessageDialog(this, "Por favor, llene todos los campos", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_AccionBotonGuardar
 
 

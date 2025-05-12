@@ -568,7 +568,6 @@ END //
 DELIMITER ;
 
 DELIMITER //
-
 CREATE PROCEDURE ActualizarProveedor(
     IN p_ID_Proveedor INT,
     IN p_NuevoNombre VARCHAR(50),
@@ -582,11 +581,9 @@ BEGIN
         Telefono = p_NuevoTelefono
     WHERE ID_Proveedor = p_ID_Proveedor;
 END //
-
 DELIMITER ;
 
 DELIMITER //
-
 CREATE PROCEDURE EliminarVenta(
     IN p_ID_Venta INT
 )
@@ -662,7 +659,6 @@ END //
 DELIMITER ;
 
 DELIMITER //
-
 CREATE PROCEDURE EliminarProveedor(
     IN p_ID_Proveedor INT
 )
@@ -743,7 +739,6 @@ END //
 DELIMITER ;
 
 DELIMITER //
-
 CREATE PROCEDURE EditarProveedor(
     IN p_ID_Proveedor INT,
     IN p_Nombre VARCHAR(100),
@@ -762,7 +757,6 @@ DELIMITER ;
 
 
 DELIMITER //
-
 CREATE PROCEDURE EditarCliente(
     IN p_ID_Cliente INT,
     IN p_Nombre VARCHAR(100),
@@ -775,6 +769,84 @@ BEGIN
         Telefono = p_Telefono,
         Direccion = p_Direccion
     WHERE ID_Cliente = p_ID_Cliente;
+END //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE PROCEDURE ListarProductosPorProveedor(
+    IN p_ID_Proveedor INT
+)
+BEGIN
+    SELECT P.Nombre_P, DC.Cantidad_com, DC.Precio_Com, C.Fecha_compra
+    FROM Detalle_Compras DC
+    JOIN Compras C ON DC.ID_Compra = C.ID_Compra
+    JOIN Productos P ON DC.ID_Producto = P.ID_Producto
+    WHERE C.ID_Proveedor = p_ID_Proveedor;
+END //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE PROCEDURE BuscarProductoPorNombre(
+    IN p_Nombre VARCHAR(100)
+)
+BEGIN
+    SELECT * 
+    FROM Productos
+    WHERE Nombre_P LIKE CONCAT('%', p_Nombre, '%');
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE VerHistorialVentasCliente(
+    IN p_ID_Cliente INT
+)
+BEGIN
+    SELECT V.ID_Venta, V.Fecha_Venta, P.Nombre_P, DV.Cantidad_ven, DV.Precio_Ven
+    FROM Ventas V
+    JOIN Detalle_Ventas DV ON V.ID_Venta = DV.ID_Venta
+    JOIN Productos P ON DV.ID_Producto = P.ID_Producto
+    WHERE V.ID_Cliente = p_ID_Cliente
+    ORDER BY V.Fecha_Venta DESC;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE ActualizarStockProducto(
+    IN p_ID_Producto INT,
+    IN p_NuevaCantidad INT
+)
+BEGIN
+    UPDATE Productos
+    SET Cantidad = p_NuevaCantidad
+    WHERE ID_Producto = p_ID_Producto;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE EliminarProducto(
+    IN p_ID_Producto INT
+)
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM Detalle_Ventas WHERE ID_Producto = p_ID_Producto)
+    AND NOT EXISTS (SELECT 1 FROM Detalle_Compras WHERE ID_Producto = p_ID_Producto) THEN
+        DELETE FROM Productos
+        WHERE ID_Producto = p_ID_Producto;
+    END IF;
+END //
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE RegistrarVentaSimple(
+    IN p_ID_Cliente INT,
+    IN p_Fecha DATE,
+    IN p_Total DECIMAL(10,2)
+)
+BEGIN
+    INSERT INTO Ventas (ID_Cliente, Fecha, Total)
+    VALUES (p_ID_Cliente, p_Fecha, p_Total);
 END //
 
 DELIMITER ;

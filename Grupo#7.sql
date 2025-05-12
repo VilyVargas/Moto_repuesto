@@ -900,4 +900,64 @@ JOIN Productos P ON DV.ID_Producto = P.ID_Producto
 GROUP BY Mes, P.Nombre_P
 ORDER BY Mes, Total_Vendido DESC;
 
+DELIMITER //
 
+DELIMITER //
+
+-- 1) Cantidad total en stock de todos los productos
+CREATE FUNCTION TotalStockGlobal()
+RETURNS INT
+DETERMINISTIC
+BEGIN
+  DECLARE total INT;
+  SELECT IFNULL(SUM(Cantidad), 0) INTO total
+  FROM Productos;
+  RETURN total;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+-- 2) Precio promedio de venta de todos los productos
+CREATE FUNCTION PromedioPrecioVenta()
+RETURNS DECIMAL(10,2)
+DETERMINISTIC
+BEGIN
+  DECLARE promedio DECIMAL(10,2);
+  SELECT IFNULL(AVG(Preciodeven), 0) INTO promedio
+  FROM Productos;
+  RETURN promedio;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+-- 3) Días desde la última compra de un proveedor dado
+CREATE FUNCTION DiasDesdeUltimaCompra(p_ID_Proveedor INT)
+RETURNS INT
+DETERMINISTIC
+BEGIN
+  DECLARE fecha_ultima DATE;
+  DECLARE dias INT;
+  SELECT MAX(Fecha_compra) INTO fecha_ultima
+    FROM Compras
+   WHERE ID_Proveedor = p_ID_Proveedor;
+  IF fecha_ultima IS NULL THEN
+    RETURN NULL;
+  END IF;
+  SET dias = DATEDIFF(CURDATE(), fecha_ultima);
+  RETURN dias;
+END //
+DELIMITER ;
+
+SELECT TotalStockGlobal();
+
+SELECT PromedioPrecioVenta();
+
+SELECT DiasDesdeUltimaCompra(2);
+
+SELECT TotalComprasCliente(1);
+
+SELECT TotalVentasEnFecha('2024-03-20');

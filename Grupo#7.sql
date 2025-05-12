@@ -850,3 +850,54 @@ BEGIN
 END //
 
 DELIMITER ;
+
+CREATE VIEW Productos_Rentables AS
+SELECT 
+    ID_Producto,
+    Nombre_P,
+    Preciodecom,
+    Preciodeven,
+    (Preciodeven - Preciodecom) AS Margen_Ganancia
+FROM Productos
+ORDER BY Margen_Ganancia DESC;
+
+CREATE VIEW Resumen_Inventario AS
+SELECT 
+    SUM(Cantidad * Preciodecom) AS Total_Invertido,
+    SUM(Cantidad * Preciodeven) AS Valor_Potencial_Venta,
+    SUM(Cantidad * (Preciodeven - Preciodecom)) AS Ganancia_Potencial
+FROM Productos;
+
+CREATE VIEW Ventas_Por_Cliente AS
+SELECT 
+    C.ID_Cliente,
+    CONCAT_WS(' ', C.Nombre1, C.Nombre2, C.Apellidos1, C.Apellidos2) AS Nombre_Completo,
+    COUNT(V.ID_Venta) AS Total_Ventas,
+    SUM(DV.Cantidad_ven * DV.Precio_Ven) AS Monto_Total
+FROM Clientes C
+JOIN Ventas V ON C.ID_Cliente = V.ID_Cliente
+JOIN Detalle_Ventas DV ON V.ID_Venta = DV.ID_Venta
+GROUP BY C.ID_Cliente;
+
+CREATE VIEW Proveedores_Mas_Usados AS
+SELECT 
+    P.ID_Proveedor,
+    P.Nombre_Prov,
+    COUNT(C.ID_Compra) AS Total_Compras
+FROM Proveedores P
+JOIN Compras C ON P.ID_Proveedor = C.ID_Proveedor
+GROUP BY P.ID_Proveedor
+ORDER BY Total_Compras DESC;
+
+CREATE VIEW Ventas_Por_Mes AS
+SELECT 
+    DATE_FORMAT(V.Fecha_Venta, '%Y-%m') AS Mes,
+    P.Nombre_P,
+    SUM(DV.Cantidad_ven) AS Total_Vendido
+FROM Detalle_Ventas DV
+JOIN Ventas V ON DV.ID_Venta = V.ID_Venta
+JOIN Productos P ON DV.ID_Producto = P.ID_Producto
+GROUP BY Mes, P.Nombre_P
+ORDER BY Mes, Total_Vendido DESC;
+
+

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DAO;
 
 import Modelo.DetalleVenta;
@@ -13,13 +9,10 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author Estudiantes
- */
+
 public class DetalleVentaDAO {
      public void crearDetalleVenta(DetalleVenta detalleVenta) throws SQLException {
-        String sql = "INSERT INTO Detalle_Ventas (ID_Venta, ID_Producto, Cantidad_ven, Precio_Ven) VALUES (?, ?)";
+        String sql = "INSERT INTO Detalle_Ventas (ID_Venta, ID_Producto, Cantidad_ven, Precio_Ven) VALUES (?,?,?,?,?)";
         try (Connection c = ConexionDB.getConnection();
              PreparedStatement stmt = c.prepareStatement(sql)) {
             stmt.setInt(1, detalleVenta.getID_Detalle_ven());
@@ -48,5 +41,25 @@ public class DetalleVentaDAO {
             }
         }
         return detalleventas;
+    }
+     
+    public void actualizarDetalle(DetalleVenta detalle) throws SQLException {
+        String sql = "UPDATE Detalle_Ventas SET Cantidad_Ven = ?, Precio_Ven = ? WHERE ID_Detalle_Ventas = ?";
+
+        try (Connection c = ConexionDB.getConnection();
+             PreparedStatement stmt = c.prepareStatement(sql)) {
+            stmt.setInt(1, detalle.getCantidad_ven());
+            stmt.setFloat(2, detalle.getPrecio_Ven());
+            stmt.executeUpdate();
+        }
+    }
+
+    public void eliminarDetalle(int ID_Detalle_Venta) throws SQLException {
+        String sql = "DELETE FROM Detalle_Ventas WHERE ID_Detalle_Venta = ?";
+
+        try (Connection c = ConexionDB.getConnection(); PreparedStatement stmt = c.prepareStatement(sql)) {
+            stmt.setInt(1, ID_Detalle_Venta);
+            stmt.executeUpdate();
+        }
     }
 }

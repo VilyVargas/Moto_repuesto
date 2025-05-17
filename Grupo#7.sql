@@ -3,83 +3,122 @@ CREATE DATABASE Moto_Repuesto;
 USE Moto_Repuesto;
 
 CREATE TABLE Clientes(
-ID_Cliente INT AUTO_INCREMENT PRIMARY KEY,
-Nombre1 VARCHAR (60) NOT NULL,
-Nombre2 VARCHAR (60)NOT NULL,
-Apellidos1 VARCHAR(60)NOT NULL,
-Apellidos2 VARCHAR(60)NOT NULL,
-Cedula VARCHAR (60),
-Telefono VARCHAR(12)
+    ID_Cliente INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre1 VARCHAR(60) NOT NULL,   
+    Nombre2 VARCHAR(60) NOT NULL,
+    Apellidos1 VARCHAR(60) NOT NULL,
+    Apellidos2 VARCHAR(60) NOT NULL,
+    Cedula VARCHAR(60),
+    Telefono VARCHAR(12)
 );
 
 CREATE TABLE Productos(
-ID_Producto INT AUTO_INCREMENT PRIMARY KEY,
-Nombre_P VARCHAR (100) NOT NULL,
-Descripcion VARCHAR (100) NOT NULL,
-Cantidad INT NOT NULL,
-Preciodecom FLOAT NOT NULL,
-Preciodeven FLOAT NOT NULL
+    ID_Producto INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre_P VARCHAR(100) NOT NULL,
+    Descripcion VARCHAR(100) NOT NULL,
+    Cantidad INT NOT NULL,
+    Preciodecom FLOAT NOT NULL,
+    Preciodeven FLOAT NOT NULL
 );
 
 CREATE TABLE Proveedores(
-ID_Proveedor INT AUTO_INCREMENT PRIMARY KEY,
-Nombre_Prov VARCHAR (100) NOT NULL,
-Contacto VARCHAR (12) NOT NULL,
-Email VARCHAR (100) NOT NULL
+    ID_Proveedor INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre_Prov VARCHAR(100) NOT NULL,
+    Contacto VARCHAR(12) NOT NULL,
+    Email VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE Compras (
-ID_Compra INT AUTO_INCREMENT PRIMARY KEY,
-Fecha_compra DATE NOT NULL,
-ID_Proveedor INT,
-FOREIGN KEY (ID_Proveedor) REFERENCES Proveedores (ID_Proveedor)
+    ID_Compra INT AUTO_INCREMENT PRIMARY KEY,
+    Fecha_compra DATE NOT NULL,
+    ID_Proveedor INT,
+    FOREIGN KEY (ID_Proveedor) REFERENCES Proveedores (ID_Proveedor)
 );
 
 CREATE TABLE Ventas (
-ID_Venta INT AUTO_INCREMENT PRIMARY KEY,
-Fecha_Venta DATE NOT NULL,
-ID_Cliente INT,
-FOREIGN KEY (ID_Cliente) REFERENCES Clientes (ID_Cliente)
+    ID_Venta INT AUTO_INCREMENT PRIMARY KEY,
+    Fecha_Venta DATE NOT NULL,
+    ID_Cliente INT,
+    FOREIGN KEY (ID_Cliente) REFERENCES Clientes (ID_Cliente)
 );
 
 CREATE TABLE Detalle_Ventas(
-ID_Detalle_ven INT AUTO_INCREMENT PRIMARY KEY,
-ID_Venta INT NOT NULL,
-ID_Producto INT NOT NULL,
-Cantidad_ven INT NOT NULL,
-Precio_Ven FLOAT NOT NULL,
-FOREIGN KEY (ID_Venta) REFERENCES Ventas (ID_Venta),
-FOREIGN KEY (ID_Producto) REFERENCES Productos (ID_Producto)
+    ID_Detalle_ven INT AUTO_INCREMENT PRIMARY KEY,
+    ID_Venta INT NOT NULL,
+    ID_Producto INT NOT NULL,
+    Cantidad_ven INT NOT NULL,
+    Precio_Ven FLOAT NOT NULL,
+    FOREIGN KEY (ID_Venta) REFERENCES Ventas (ID_Venta),
+    FOREIGN KEY (ID_Producto) REFERENCES Productos (ID_Producto)
 );
 
 CREATE TABLE Detalle_Compras(
-ID_Detales_Com INT AUTO_INCREMENT PRIMARY KEY,
-ID_Compra INT NOT NULL,
-ID_Producto INT NOT NULL,
-Cantidad_com INT NOT NULL,
-Precio_Com FLOAT NOT NULL,
-FOREIGN KEY (ID_Producto) REFERENCES Productos (ID_Producto),
-FOREIGN KEY (ID_Compra) REFERENCES Compras (ID_Compra)
+    ID_Detales_Com INT AUTO_INCREMENT PRIMARY KEY,
+    ID_Compra INT NOT NULL,
+    ID_Producto INT NOT NULL,
+    Cantidad_com INT NOT NULL,
+    Precio_Com FLOAT NOT NULL,
+    FOREIGN KEY (ID_Producto) REFERENCES Productos (ID_Producto),
+    FOREIGN KEY (ID_Compra) REFERENCES Compras (ID_Compra)
 );
 
--- Insertar datos en Proveedores
+-- Insertar datos originales en Proveedores
 INSERT INTO Proveedores (Nombre_Prov, Contacto, Email) VALUES
 ('Repuestos Rápidos', '1234567890', 'contacto@repuestosrapidos.com'),
 ('MotoPartes S.A.', '0987654321', 'ventas@motopartes.com'),
 ('Speed Moto', '1122334455', 'info@speedmoto.com');
 
--- Insertar datos en Proveedores
+-- Insertar 20 nuevos datos en Proveedores
 INSERT INTO Proveedores (Nombre_Prov, Contacto, Email) VALUES
-('Repuestos Rápidos', '1234567890', 'contacto@repuestosrapidos.com'),
-('MotoPartes S.A.', '0987654321', 'ventas@motopartes.com'),
-('Speed Moto', '1122334455', 'info@speedmoto.com');
+('AutoMotos LTDA', '3012345678', 'ventas@automotos.com'),
+('Repuestos Elite', '3023456789', 'info@repuestoselite.com'),
+('MotoAccesorios', '3034567890', 'contacto@motoaccesorios.com'),
+('Veloz Parts', '3045678901', 'soporte@velozparts.com'),
+('MotoTech', '3056789012', 'ventas@mototech.com'),
+('Repuestos Pro', '3067890123', 'info@repuestospro.com'),
+('Speedy Moto', '3078901234', 'contacto@speedymoto.com'),
+('MotoZone', '3089012345', 'ventas@motozone.com'),
+('Repuestos Dinámicos', '3090123456', 'info@repuestosdinamicos.com'),
+('MotoPower', '3101234567', 'soporte@motopower.com'),
+('Turbo Parts', '3112345678', 'ventas@turboparts.com'),
+('MotoStar', '3123456789', 'contacto@motostar.com'),
+('Repuestos Veloces', '3134567890', 'info@repuestosveloces.com'),
+('MotoMundo', '3145678901', 'ventas@motomundo.com'),
+('Speed Parts', '3156789012', 'soporte@speedparts.com'),
+('MotoRacing', '3167890123', 'contacto@motoracing.com'),
+('Repuestos Top', '3178901234', 'ventas@repuestostop.com'),
+('MotoEnergy', '3189012345', 'info@motoenergy.com'),
+('Fast Moto', '3190123456', 'soporte@fastmoto.com'),
+('MotoPremium', '3201234567', 'ventas@motopremium.com');
 
--- Insertar datos en Clientes
+-- Insertar datos originales en Clientes
 INSERT INTO Clientes (Nombre1, Nombre2, Apellidos1, Apellidos2, Cedula, Telefono) VALUES
-('Juan',  'edgardo', 'Pérez', 'Lopez', '123456789', '3216549870');
+('Juan', 'Edgardo', 'Pérez', 'López', '123456789', '3216549870');
 
+-- Insertar 20 nuevos datos en Clientes
+INSERT INTO Clientes (Nombre1, Nombre2, Apellidos1, Apellidos2, Cedula, Telefono) VALUES
+('María', 'Isabel', 'Gómez', 'Rodríguez', '987654321', '3101234567'),
+('Carlos', 'Andrés', 'Martínez', 'Sánchez', '456789123', '3112345678'),
+('Laura', 'Sofía', 'Ramírez', 'Torres', '321654987', '3123456789'),
+('Diego', 'Felipe', 'Hernández', 'García', '789123456', '3134567890'),
+('Ana', 'Lucía', 'Díaz', 'Moreno', '654987321', '3145678901'),
+('Pedro', 'José', 'Vega', 'Castro', '147258369', '3156789012'),
+('Camila', 'Valentina', 'Rojas', 'Mendoza', '258369147', '3167890123'),
+('Luis', 'Fernando', 'Ortiz', 'Pineda', '369147258', '3178901234'),
+('Sofía', 'Alejandra', 'Cruz', 'Vargas', '741852963', '3189012345'),
+('Jorge', 'Enrique', 'Silva', 'Ríos', '852963741', '3190123456'),
+('Valeria', 'Paola', 'López', 'Guzmán', '963741852', '3201234567'),
+('Gabriel', 'Iván', 'Molina', 'Cárdenas', '159753486', '3212345678'),
+('Daniela', 'Marcela', 'Suárez', 'Navarro', '357951468', '3223456789'),
+('Andrés', 'Camilo', 'Reyes', 'Ospina', '753951486', '3234567890'),
+('Clara', 'Victoria', 'Pinto', 'Mejía', '951753624', '3245678901'),
+('Santiago', 'Nicolás', 'Aguilar', 'Bermúdez', '624951753', '3256789012'),
+('Elena', 'Gabriela', 'Castaño', 'Quintero', '486159753', '3267890123'),
+('Mateo', 'Sebastián', 'Montoya', 'Soto', '753486159', '3278901234'),
+('Isabella', 'Juliana', 'Franco', 'Zapata', '159486753', '3289012345'),
+('Emilio', 'Rafael', 'Gil', 'Hurtado', '321789654', '3290123456');
 
--- Insertar datos en Productos
+-- Insertar datos originales en Productos
 INSERT INTO Productos (Nombre_P, Descripcion, Cantidad, Preciodecom, Preciodeven) VALUES
 ('Batería Moto X', 'Batería de 12V para motos', 50, 45.00, 70.00),
 ('Aceite Sintético', 'Aceite 10W-40 para motos', 100, 30.00, 50.00),
@@ -101,7 +140,30 @@ INSERT INTO Productos (Nombre_P, Descripcion, Cantidad, Preciodecom, Preciodeven
 ('Cubierta de Llantas', 'Cubiertas protectoras para llantas', 35, 90.00, 130.00),
 ('Kit de Herramientas Básicas', 'Kit con herramientas esenciales para motos', 40, 50.00, 85.00);
 
--- Insertar datos en Compras
+-- Insertar 20 nuevos datos en Productos
+INSERT INTO Productos (Nombre_P, Descripcion, Cantidad, Preciodecom, Preciodeven) VALUES
+('Bujías NGK', 'Bujías de alto rendimiento', 80, 12.00, 20.00),
+('Guantes de Moto', 'Guantes de cuero reforzados', 50, 25.00, 45.00),
+('Candado de Disco', 'Candado de seguridad para motos', 30, 35.00, 60.00),
+('Cargador USB', 'Cargador USB para motos', 60, 15.00, 30.00),
+('Soporte para GPS', 'Soporte universal para dispositivos GPS', 40, 20.00, 35.00),
+('Chaleco Reflectivo', 'Chaleco de seguridad reflectivo', 100, 10.00, 18.00),
+('Cubre Asiento', 'Cubre asiento impermeable', 70, 18.00, 30.00),
+('Bolsa de Tanque', 'Bolsa magnética para tanque', 25, 50.00, 80.00),
+('Intercomunicador Bluetooth', 'Sistema de comunicación Bluetooth', 15, 100.00, 150.00),
+('Kit de Embrague', 'Kit de embrague reforzado', 20, 80.00, 120.00),
+('Luz Trasera LED', 'Luz trasera LED de alta intensidad', 50, 25.00, 40.00),
+('Cubre Manos', 'Protectores de manos para motos', 60, 30.00, 50.00),
+('Tensor de Cadena', 'Tensor automático para cadenas', 40, 15.00, 25.00),
+('Cilindro de Motor', 'Cilindro de repuesto para motos', 10, 200.00, 300.00),
+('Radiador de Aceite', 'Radiador para enfriamiento de aceite', 8, 150.00, 220.00),
+('Protector de Motor', 'Protector metálico para motor', 30, 60.00, 90.00),
+('Asiento Ergonómico', 'Asiento de gel para mayor comodidad', 25, 70.00, 110.00),
+('Cubre Radiador', 'Cubierta protectora para radiador', 35, 40.00, 65.00),
+('Kit de Limpieza', 'Kit para limpieza y mantenimiento', 90, 20.00, 35.00),
+('Portaequipaje Trasero', 'Portaequipaje de acero para motos', 20, 80.00, 120.00);
+
+-- Insertar datos originales en Compras
 INSERT INTO Compras (Fecha_compra, ID_Proveedor) VALUES
 ('2024-03-18', 1),
 ('2024-03-20', 2),
@@ -112,7 +174,30 @@ INSERT INTO Compras (Fecha_compra, ID_Proveedor) VALUES
 ('2024-03-02', 2),
 ('2024-03-05', 3);
 
--- Insertar datos en Ventas
+-- Insertar 20 nuevos datos en Compras
+INSERT INTO Compras (Fecha_compra, ID_Proveedor) VALUES
+('2024-04-01', 4),
+('2024-04-05', 5),
+('2024-04-10', 6),
+('2024-04-15', 7),
+('2024-04-20', 8),
+('2024-04-25', 9),
+('2024-05-01', 10),
+('2024-05-05', 11),
+('2024-05-10', 12),
+('2024-05-15', 13),
+('2024-05-20', 14),
+('2024-05-25', 15),
+('2024-06-01', 16),
+('2024-06-05', 17),
+('2024-06-10', 18),
+('2024-06-15', 19),
+('2024-06-20', 20),
+('2024-06-25', 21),
+('2024-07-01', 22),
+('2024-07-05', 23);
+
+-- Insertar datos originales en Ventas
 INSERT INTO Ventas (Fecha_Venta, ID_Cliente) VALUES
 ('2024-03-18', 1),
 ('2024-03-20', 2),
@@ -123,17 +208,86 @@ INSERT INTO Ventas (Fecha_Venta, ID_Cliente) VALUES
 ('2024-03-12', 2),
 ('2024-03-15', 3);
 
--- Insertar datos en Detalle_Compras
+-- Insertar 20 nuevos datos en Ventas
+INSERT INTO Ventas (Fecha_Venta, ID_Cliente) VALUES
+('2024-04-02', 2),
+('2024-04-06', 3),
+('2024-04-11', 4),
+('2024-04-16', 5),
+('2024-04-21', 6),
+('2024-04-26', 7),
+('2024-05-02', 8),
+('2024-05-06', 9),
+('2024-05-11', 10),
+('2024-05-16', 11),
+('2024-05-21', 12),
+('2024-05-26', 13),
+('2024-06-02', 14),
+('2024-06-06', 15),
+('2024-06-11', 16),
+('2024-06-16', 17),
+('2024-06-21', 18),
+('2024-06-26', 19),
+('2024-07-02', 20),
+('2024-07-06', 21);
+
+-- Insertar datos originales en Detalle_Compras
 INSERT INTO Detalle_Compras (ID_Compra, ID_Producto, Cantidad_com, Precio_Com) VALUES
 (1, 1, 20, 45.00),
 (2, 2, 50, 30.00),
 (3, 3, 15, 100.00);
 
--- Insertar datos en Detalle_Ventas
+-- Insertar 20 nuevos datos en Detalle_Compras
+INSERT INTO Detalle_Compras (ID_Compra, ID_Producto, Cantidad_com, Precio_Com) VALUES
+(9, 4, 10, 2500.00),
+(10, 5, 15, 150.00),
+(11, 6, 8, 350.00),
+(12, 7, 20, 80.00),
+(13, 8, 50, 20.00),
+(14, 9, 12, 200.00),
+(15, 10, 25, 50.00),
+(16, 11, 40, 25.00),
+(17, 12, 30, 60.00),
+(18, 13, 5, 400.00),
+(19, 14, 60, 15.00),
+(20, 15, 70, 10.00),
+(21, 16, 20, 40.00),
+(22, 17, 35, 30.00),
+(23, 18, 15, 90.00),
+(24, 19, 25, 50.00),
+(25, 20, 10, 12.00),
+(26, 21, 30, 25.00),
+(27, 22, 20, 35.00),
+(28, 23, 40, 15.00);
+
+-- Insertar datos originales en Detalle_Ventas
 INSERT INTO Detalle_Ventas (ID_Venta, ID_Producto, Cantidad_ven, Precio_Ven) VALUES
 (1, 1, 5, 70.00),
 (2, 2, 10, 50.00),
 (3, 3, 2, 150.00);
+
+-- Insertar 20 nuevos datos en Detalle_Ventas
+INSERT INTO Detalle_Ventas (ID_Venta, ID_Producto, Cantidad_ven, Precio_Ven) VALUES
+(9, 4, 1, 3000.00),
+(10, 5, 2, 250.00),
+(11, 6, 1, 500.00),
+(12, 7, 5, 120.00),
+(13, 8, 10, 35.00),
+(14, 9, 3, 300.00),
+(15, 10, 4, 80.00),
+(16, 11, 8, 40.00),
+(17, 12, 5, 100.00),
+(18, 13, 1, 600.00),
+(19, 14, 15, 25.00),
+(20, 15, 20, 18.00),
+(21, 16, 3, 70.00),
+(22, 17, 6, 55.00),
+(23, 18, 2, 130.00),
+(24, 19, 5, 85.00),
+(25, 20, 4, 20.00),
+(26, 21, 7, 45.00),
+(27, 22, 3, 60.00),
+(28, 23, 10, 30.00);
 
 -- Ver todos los datos de la tabla Proveedores
 SELECT * FROM Proveedores;
@@ -150,73 +304,23 @@ SELECT * FROM Compras;
 -- Ver todos los datos de la tabla Ventas
 SELECT * FROM Ventas;
 
--- Ver todos los datos de la tabla Precio_Compras
+-- Ver todos los datos de la tabla Detalle_Compras
 SELECT * FROM Detalle_Compras;
 
--- Ver todos los datos de la tabla Precio_Ventas
+-- Ver todos los datos de la tabla Detalle_Ventas
 SELECT * FROM Detalle_Ventas;
 
- -- Consultas avanzadas
- 
--- Productos con menos de 10 unidades disponibles
+-- Consultas intermedias y avanzadas 
 
-SELECT Nombre_P, Cantidad
-FROM Productos
-WHERE Cantidad > 10;
-
-SELECT V.ID_Venta, V.Fecha_Venta, C.Nombre_cli, C.Apellidos_cli, C.Cedula, C.Telefono
-FROM Ventas V
-INNER JOIN Clientes C ON V.ID_Cliente = C.ID_Cliente;
-
-SELECT Co.ID_Compra, Co.Fecha_compra, P.Nombre_Prov, P.Contacto, P.Email
-FROM Compras Co
-INNER JOIN Proveedores P ON Co.ID_Proveedor = P.ID_Proveedor;
-
-SELECT DC.ID_Compra, C.Fecha_compra, P.Nombre_P, DC.Cantidad_com, DC.Precio_Com
-FROM Detalle_Compras DC
-INNER JOIN Compras C ON DC.ID_Compra = C.ID_Compra
-INNER JOIN Productos P ON DC.ID_Producto = P.ID_Producto;
-
-SELECT DV.ID_Venta, V.Fecha_Venta, P.Nombre_P, DV.Cantidad_ven, DV.Precio_Ven
-FROM Detalle_Ventas DV
-INNER JOIN Ventas V ON DV.ID_Venta = V.ID_Venta
-INNER JOIN Productos P ON DV.ID_Producto = P.ID_Producto;
-
-SELECT V.ID_Venta, V.Fecha_Venta, C.Nombre_cli, C.Apellidos_cli, C.Cedula, C.Telefono
-FROM Ventas V
-LEFT JOIN Clientes C ON V.ID_Cliente = C.ID_Cliente;
-
-
-SELECT Co.ID_Compra, Co.Fecha_compra, P.Nombre_Prov, P.Contacto, P.Email
-FROM Compras Co
-LEFT JOIN Proveedores P ON Co.ID_Proveedor = P.ID_Proveedor;
-
-
-SELECT DC.ID_Compra, P.Nombre_P, DC.Cantidad_com, DC.Precio_Com
-FROM Detalle_Compras DC
-LEFT JOIN Productos P ON DC.ID_Producto = P.ID_Producto;
-
-SELECT DV.ID_Venta, P.Nombre_P, DV.Cantidad_ven, DV.Precio_Ven
-FROM Detalle_Ventas DV
-LEFT JOIN Productos P ON DV.ID_Producto = P.ID_Producto;
-
--- Mayor Stock
 CREATE VIEW Productos_Stock AS
 SELECT Nombre_P, Cantidad
 FROM Productos
 WHERE Cantidad > 10;
 
-SELECT * FROM Productos_Stock;
-
--- Menor Stock
 CREATE VIEW Productos_Bajo_Stock AS
 SELECT Nombre_P, Cantidad
 FROM Productos
 WHERE Cantidad <= 10;
-
-SELECT * FROM Productos_Bajo_Stock;
-
--- Productos mas Vendidos 
 
 CREATE VIEW Productos_Mas_Vendidos AS
 SELECT P.Nombre_P, SUM(DV.Cantidad_ven) AS Total_Vendido
@@ -225,21 +329,14 @@ JOIN Productos P ON DV.ID_Producto = P.ID_Producto
 GROUP BY P.Nombre_P
 ORDER BY Total_Vendido DESC;
 
-SELECT * FROM Productos_Mas_Vendidos;
-
-
--- Mayor gasto por compra
 CREATE VIEW Gastos_Compras AS
 SELECT Co.ID_Compra, Co.Fecha_compra, P.Nombre_Prov,
        SUM(DC.Cantidad_com * DC.Precio_Com) AS Total_Compra
 FROM Compras Co
 JOIN Proveedores P ON Co.ID_Proveedor = P.ID_Proveedor
 JOIN Detalle_Compras DC ON Co.ID_Compra = DC.ID_Compra
-GROUP BY Co.ID_Compra;
+GROUP BY Co.ID_Compra, Co.Fecha_compra, P.Nombre_Prov;
 
-SELECT * FROM Gastos_Compras;
-
--- Producto Menos Vendido
 CREATE VIEW Productos_No_Vendidos AS
 SELECT P.ID_Producto, P.Nombre_P, P.Cantidad
 FROM Productos P
@@ -247,23 +344,16 @@ LEFT JOIN Detalle_Ventas DV ON P.ID_Producto = DV.ID_Producto
 WHERE DV.ID_Producto IS NULL
 ORDER BY P.Cantidad DESC;
 
-SELECT * FROM Productos_No_Vendidos;
-
--- Clientes mas Frecuentes 
-CREATE OR REPLACE VIEW Clientes_Frecuentes AS
-SELECT C.ID_Cliente, C.Nombre1, C.Apellidos1, COUNT(V.ID_Venta) AS Total_Compras
+CREATE VIEW Clientes_Frecuentes AS
+SELECT C.ID_Cliente, CONCAT_WS(' ', C.Nombre1, C.Apellidos1) AS Nombre_Completo, 
+       COUNT(V.ID_Venta) AS Total_Compras
 FROM Clientes C
 JOIN Ventas V ON C.ID_Cliente = V.ID_Cliente
-GROUP BY C.ID_Cliente
+GROUP BY C.ID_Cliente, C.Nombre1, C.Apellidos1
 ORDER BY Total_Compras DESC;
 
-SELECT * FROM Clientes_Frecuentes;
-
-
--- Ventas Por Fecha 
 CREATE VIEW Ventas_Por_Fecha AS
-SELECT V.Fecha_Venta,
-       P.Nombre_P AS Producto,
+SELECT V.Fecha_Venta, P.Nombre_P AS Producto,
        SUM(DV.Cantidad_ven) AS Total_Cantidad_Vendida,
        SUM(DV.Cantidad_ven * DV.Precio_Ven) AS Total_Venta
 FROM Ventas V
@@ -271,8 +361,46 @@ JOIN Detalle_Ventas DV ON V.ID_Venta = DV.ID_Venta
 JOIN Productos P ON DV.ID_Producto = P.ID_Producto
 GROUP BY V.Fecha_Venta, P.Nombre_P
 ORDER BY V.Fecha_Venta ASC, Total_Venta DESC;
-	
--- Registrar Cliente
+
+CREATE VIEW Productos_Rentables AS
+SELECT ID_Producto, Nombre_P, Preciodecom, Preciodeven,
+       (Preciodeven - Preciodecom) AS Margen_Ganancia
+FROM Productos
+ORDER BY Margen_Ganancia DESC;
+
+CREATE VIEW Resumen_Inventario AS
+SELECT SUM(Cantidad * Preciodecom) AS Total_Invertido,
+       SUM(Cantidad * Preciodeven) AS Valor_Potencial_Venta,
+       SUM(Cantidad * (Preciodeven - Preciodecom)) AS Ganancia_Potencial
+FROM Productos;
+
+CREATE VIEW Ventas_Por_Cliente AS
+SELECT C.ID_Cliente, CONCAT_WS(' ', C.Nombre1, C.Nombre2, C.Apellidos1, C.Apellidos2) AS Nombre_Completo,
+       COUNT(V.ID_Venta) AS Total_Ventas,
+       SUM(DV.Cantidad_ven * DV.Precio_Ven) AS Monto_Total
+FROM Clientes C
+JOIN Ventas V ON C.ID_Cliente = V.ID_Cliente
+JOIN Detalle_Ventas DV ON V.ID_Venta = DV.ID_Venta
+GROUP BY C.ID_Cliente, C.Nombre1, C.Nombre2, C.Apellidos1, C.Apellidos2;
+
+CREATE VIEW Proveedores_Mas_Usados AS
+SELECT P.ID_Proveedor, P.Nombre_Prov, COUNT(C.ID_Compra) AS Total_Compras
+FROM Proveedores P
+JOIN Compras C ON P.ID_Proveedor = C.ID_Proveedor
+GROUP BY P.ID_Proveedor, P.Nombre_Prov
+ORDER BY Total_Compras DESC;
+
+CREATE VIEW Ventas_Por_Mes AS
+SELECT DATE_FORMAT(V.Fecha_Venta, '%Y-%m') AS Mes, P.Nombre_P,
+       SUM(DV.Cantidad_ven) AS Total_Vendido
+FROM Detalle_Ventas DV
+JOIN Ventas V ON DV.ID_Venta = DV.ID_Venta
+JOIN Productos P ON DV.ID_Producto = P.ID_Producto
+GROUP BY DATE_FORMAT(V.Fecha_Venta, '%Y-%m'), P.Nombre_P
+ORDER BY Mes, Total_Vendido DESC;
+
+
+-- Procesos Almacenados
 
 DELIMITER //
 CREATE PROCEDURE RegistrarCliente(
@@ -289,8 +417,6 @@ BEGIN
 END //
 DELIMITER ;
 
--- Registrar Producto 
-
 DELIMITER //
 CREATE PROCEDURE RegistrarProducto(
     IN p_Nombre_P VARCHAR(100),
@@ -305,7 +431,6 @@ BEGIN
 END //
 DELIMITER ;
 
--- Registrar Prooveedor 
 DELIMITER //
 CREATE PROCEDURE RegistrarProveedor(
     IN p_Nombre_Prov VARCHAR(100),
@@ -318,7 +443,6 @@ BEGIN
 END //
 DELIMITER ;
 
--- Registrar Compra 
 DELIMITER //
 CREATE PROCEDURE RegistrarCompra(
     IN p_Fecha DATE,
@@ -329,22 +453,17 @@ CREATE PROCEDURE RegistrarCompra(
 )
 BEGIN
     DECLARE nueva_compra_id INT;
-    
     INSERT INTO Compras (Fecha_compra, ID_Proveedor)
     VALUES (p_Fecha, p_ID_Proveedor);
-    
     SET nueva_compra_id = LAST_INSERT_ID();
-    
     INSERT INTO Detalle_Compras (ID_Compra, ID_Producto, Cantidad_com, Precio_Com)
     VALUES (nueva_compra_id, p_ID_Producto, p_Cantidad, p_Precio);
-    
     UPDATE Productos
     SET Cantidad = Cantidad + p_Cantidad
     WHERE ID_Producto = p_ID_Producto;
 END //
 DELIMITER ;
 
--- Registrar Venta 
 DELIMITER //
 CREATE PROCEDURE RegistrarVenta(
     IN p_Fecha DATE,
@@ -355,22 +474,17 @@ CREATE PROCEDURE RegistrarVenta(
 )
 BEGIN
     DECLARE nueva_venta_id INT;
-    
     INSERT INTO Ventas (Fecha_Venta, ID_Cliente)
     VALUES (p_Fecha, p_ID_Cliente);
-    
     SET nueva_venta_id = LAST_INSERT_ID();
-    
     INSERT INTO Detalle_Ventas (ID_Venta, ID_Producto, Cantidad_ven, Precio_Ven)
     VALUES (nueva_venta_id, p_ID_Producto, p_Cantidad, p_Precio);
-    
     UPDATE Productos
     SET Cantidad = Cantidad - p_Cantidad
     WHERE ID_Producto = p_ID_Producto;
 END //
 DELIMITER ;
 
--- Eliminar Cliente 
 DELIMITER //
 CREATE PROCEDURE EliminarCliente(
     IN p_ID_Cliente INT
@@ -381,7 +495,6 @@ BEGIN
 END //
 DELIMITER ;
 
--- Actualizar Cliente 
 DELIMITER //
 CREATE PROCEDURE ActualizarCliente(
     IN p_ID_Cliente INT,
@@ -404,117 +517,7 @@ BEGIN
 END //
 DELIMITER ;
 
-CALL RegistrarCliente('Juan', 'Carlos', 'Pérez', 'Gómez', '123456789', '3216549870');
-CALL RegistrarProducto('Aceite de Motor', 'Aceite sintético 10W-40', 100, 25.00, 40.00);
-CALL RegistrarProveedor('MotoRepuestos S.A.', '3001234567', 'ventas@motorepuestos.com');
-CALL RegistrarCompra('2025-04-28', 1, 2, 50, 30.00);
-CALL RegistrarVenta('2025-04-28', 2, 3, 5, 50.00);
-CALL EliminarCliente(1);
-CALL ActualizarCliente(1, 'Luis', 'Fernando', 'Martínez', 'Ramírez', '987654321', '3106549870');
-
--- ObtenerNombreCompletoCliente
 DELIMITER //
-CREATE FUNCTION ObtenerNombreCompletoCliente(p_ID_Cliente INT)
-RETURNS VARCHAR(255)
-DETERMINISTIC
-BEGIN
-    DECLARE nombre_completo VARCHAR(255);
-
-    SELECT CONCAT_WS(' ', Nombre1, Nombre2, Apellidos1, Apellidos2)
-    INTO nombre_completo
-    FROM Clientes
-    WHERE ID_Cliente = p_ID_Cliente;
-
-    RETURN nombre_completo;
-END //
-DELIMITER ;
-
-SELECT ObtenerNombreCompletoCliente(2);
-
--- TotalVentasProducto
-DELIMITER //
-CREATE FUNCTION TotalVentasProducto(p_ID_Producto INT)
-RETURNS FLOAT
-DETERMINISTIC
-BEGIN
-    DECLARE total FLOAT;
-
-    SELECT IFNULL(SUM(Cantidad_ven * Precio_Ven), 0)
-    INTO total
-    FROM Detalle_Ventas
-    WHERE ID_Producto = p_ID_Producto;
-
-    RETURN total;
-END //
-DELIMITER ;
-
-SELECT Nombre_P, TotalVentasProducto(ID_Producto) AS Total_Vendido
-FROM Productos;
-
-
--- TotalComprasProducto
-DELIMITER //
-CREATE FUNCTION TotalComprasProducto(p_ID_Producto INT)
-RETURNS FLOAT
-DETERMINISTIC
-BEGIN
-    DECLARE total FLOAT;
-
-    SELECT IFNULL(SUM(Cantidad_com * Precio_Com), 0)
-    INTO total
-    FROM Detalle_Compras
-    WHERE ID_Producto = p_ID_Producto;
-
-    RETURN total;
-END //
-DELIMITER ;
-
-SELECT Nombre_P, TotalComprasProducto(ID_Producto) AS Total_Comprado
-FROM Productos;
-
-
--- StockProducto
-DELIMITER //
-CREATE FUNCTION StockProducto(p_ID_Producto INT)
-RETURNS INT
-DETERMINISTIC
-BEGIN
-    DECLARE stock INT;
-
-    SELECT Cantidad
-    INTO stock
-    FROM Productos
-    WHERE ID_Producto = p_ID_Producto;
-
-    RETURN stock;
-END //
-DELIMITER ;
-
-SELECT Nombre_P, StockProducto(ID_Producto) AS Stock_Actual
-FROM Productos;
-
-
--- ClienteActivo
-DELIMITER //
-CREATE FUNCTION ClienteActivo(p_ID_Cliente INT)
-RETURNS BOOLEAN
-DETERMINISTIC
-BEGIN
-    DECLARE existe INT;
-
-    SELECT COUNT(*) INTO existe
-    FROM Ventas
-    WHERE ID_Cliente = p_ID_Cliente;
-
-    RETURN existe > 0;
-END //
-DELIMITER ;
-
-SELECT ID_Cliente, ObtenerNombreCompletoCliente(ID_Cliente) AS Nombre, ClienteActivo(ID_Cliente) AS Ha_Comprado
-FROM Clientes;
-
-DELIMITER //
-
 CREATE PROCEDURE ActualizarVenta(
     IN p_ID_Venta INT,
     IN p_NuevaFecha DATE,
@@ -526,11 +529,9 @@ BEGIN
         ID_Cliente = p_ID_Cliente
     WHERE ID_Venta = p_ID_Venta;
 END //
-
 DELIMITER ;
 
 DELIMITER //
-
 CREATE PROCEDURE ActualizarCompra(
     IN p_ID_Compra INT,
     IN p_NuevaFecha DATE,
@@ -542,43 +543,40 @@ BEGIN
         ID_Proveedor = p_ID_Proveedor
     WHERE ID_Compra = p_ID_Compra;
 END //
-
 DELIMITER ;
 
 DELIMITER //
-
 CREATE PROCEDURE ActualizarProducto(
     IN p_ID_Producto INT,
-    IN p_NuevoNombre VARCHAR(50),
-    IN p_NuevaDescripcion VARCHAR(100),
-    IN p_NuevaMarca VARCHAR(50),
-    IN p_NuevaCantidad INT,
-    IN p_NuevoPrecio DECIMAL(10,2)
+    IN p_Nombre_P VARCHAR(100),
+    IN p_Descripcion VARCHAR(100),
+    IN p_Cantidad INT,
+    IN p_Preciodecom DECIMAL(10,2),
+    IN p_Preciodeven DECIMAL(10,2)
 )
 BEGIN
     UPDATE Productos
-    SET Nombre_P = p_NuevoNombre,
-        Descripcion_P = p_NuevaDescripcion,
-        Marca = p_NuevaMarca,
-        Cantidad = p_NuevaCantidad,
-        Precio_Unitario = p_NuevoPrecio
+    SET Nombre_P = p_Nombre_P,
+        Descripcion = p_Descripcion,
+        Cantidad = p_Cantidad,
+        Preciodecom = p_Preciodecom,
+        Preciodeven = p_Preciodeven
     WHERE ID_Producto = p_ID_Producto;
 END //
-
 DELIMITER ;
 
 DELIMITER //
 CREATE PROCEDURE ActualizarProveedor(
     IN p_ID_Proveedor INT,
-    IN p_NuevoNombre VARCHAR(50),
-    IN p_NuevaDireccion VARCHAR(100),
-    IN p_NuevoTelefono VARCHAR(20)
+    IN p_Nombre_Prov VARCHAR(100),
+    IN p_Contacto VARCHAR(20),
+    IN p_Email VARCHAR(100)
 )
 BEGIN
     UPDATE Proveedores
-    SET Nombre_Prov = p_NuevoNombre,
-        Direccion = p_NuevaDireccion,
-        Telefono = p_NuevoTelefono
+    SET Nombre_Prov = p_Nombre_Prov,
+        Contacto = p_Contacto,
+        Email = p_Email
     WHERE ID_Proveedor = p_ID_Proveedor;
 END //
 DELIMITER ;
@@ -588,74 +586,36 @@ CREATE PROCEDURE EliminarVenta(
     IN p_ID_Venta INT
 )
 BEGIN
-    -- Eliminar detalles primero
     DELETE FROM Detalle_Ventas
     WHERE ID_Venta = p_ID_Venta;
-
-    -- Luego eliminar la venta
     DELETE FROM Ventas
     WHERE ID_Venta = p_ID_Venta;
 END //
-
 DELIMITER ;
 
 DELIMITER //
-
 CREATE PROCEDURE EliminarCompra(
     IN p_ID_Compra INT
 )
 BEGIN
-    -- Eliminar detalles primero
     DELETE FROM Detalle_Compras
     WHERE ID_Compra = p_ID_Compra;
-
-    -- Luego eliminar la compra
     DELETE FROM Compras
     WHERE ID_Compra = p_ID_Compra;
 END //
-
 DELIMITER ;
 
 DELIMITER //
-
 CREATE PROCEDURE EliminarProducto(
     IN p_ID_Producto INT
 )
 BEGIN
-    -- Asegúrate de eliminar primero detalles relacionados, si se desea permitir
-    DELETE FROM Detalle_Ventas
-    WHERE ID_Producto = p_ID_Producto;
-
-    DELETE FROM Detalle_Compras
-    WHERE ID_Producto = p_ID_Producto;
-
-    -- Luego eliminar el producto
-    DELETE FROM Productos
-    WHERE ID_Producto = p_ID_Producto;
+    IF NOT EXISTS (SELECT 1 FROM Detalle_Ventas WHERE ID_Producto = p_ID_Producto)
+    AND NOT EXISTS (SELECT 1 FROM Detalle_Compras WHERE ID_Producto = p_ID_Producto) THEN
+        DELETE FROM Productos
+        WHERE ID_Producto = p_ID_Producto;
+    END IF;
 END //
-
-DELIMITER ;
-
-DELIMITER //
-
-CREATE PROCEDURE EliminarProveedor(
-    IN p_ID_Proveedor INT
-)
-BEGIN
-    -- Eliminar primero las compras y sus detalles
-    DELETE FROM Detalle_Compras
-    WHERE ID_Compra IN (
-        SELECT ID_Compra FROM Compras WHERE ID_Proveedor = p_ID_Proveedor
-    );
-
-    DELETE FROM Compras
-    WHERE ID_Proveedor = p_ID_Proveedor;
-
-    -- Luego eliminar el proveedor
-    DELETE FROM Proveedores
-    WHERE ID_Proveedor = p_ID_Proveedor;
-END //
-
 DELIMITER ;
 
 DELIMITER //
@@ -663,115 +623,28 @@ CREATE PROCEDURE EliminarProveedor(
     IN p_ID_Proveedor INT
 )
 BEGIN
-    -- Eliminar primero las compras y sus detalles
     DELETE FROM Detalle_Compras
     WHERE ID_Compra IN (
         SELECT ID_Compra FROM Compras WHERE ID_Proveedor = p_ID_Proveedor
     );
-
     DELETE FROM Compras
     WHERE ID_Proveedor = p_ID_Proveedor;
-
-    -- Luego eliminar el proveedor
     DELETE FROM Proveedores
     WHERE ID_Proveedor = p_ID_Proveedor;
 END //
-
 DELIMITER ;
 
-
 DELIMITER //
-
-CREATE PROCEDURE EditarVenta(
-    IN p_ID_Venta INT,
+CREATE PROCEDURE RegistrarVentaSimple(
     IN p_ID_Cliente INT,
     IN p_Fecha DATE,
     IN p_Total DECIMAL(10,2)
 )
 BEGIN
-    UPDATE Ventas
-    SET ID_Cliente = p_ID_Cliente,
-        Fecha = p_Fecha,
-        Total = p_Total
-    WHERE ID_Venta = p_ID_Venta;
-END //
-
-DELIMITER ;
-
-DELIMITER //
-
-CREATE PROCEDURE EditarCompra(
-    IN p_ID_Compra INT,
-    IN p_ID_Proveedor INT,
-    IN p_Fecha DATE,
-    IN p_Total DECIMAL(10,2)
-)
-BEGIN
-    UPDATE Compras
-    SET ID_Proveedor = p_ID_Proveedor,
-        Fecha = p_Fecha,
-        Total = p_Total
-    WHERE ID_Compra = p_ID_Compra;
-END //
-
-DELIMITER ;
-
-DELIMITER //
-
-CREATE PROCEDURE EditarProducto(
-    IN p_ID_Producto INT,
-    IN p_Nombre VARCHAR(100),
-    IN p_Precio_Compra DECIMAL(10,2),
-    IN p_Precio_Venta DECIMAL(10,2),
-    IN p_Stock INT,
-    IN p_Descripcion TEXT
-)
-BEGIN
-    UPDATE Productos
-    SET Nombre = p_Nombre,
-        Precio_Compra = p_Precio_Compra,
-        Precio_Venta = p_Precio_Venta,
-        Stock = p_Stock,
-        Descripcion = p_Descripcion
-    WHERE ID_Producto = p_ID_Producto;
-END //
-
-DELIMITER ;
-
-DELIMITER //
-CREATE PROCEDURE EditarProveedor(
-    IN p_ID_Proveedor INT,
-    IN p_Nombre VARCHAR(100),
-    IN p_Telefono VARCHAR(20),
-    IN p_Direccion VARCHAR(255)
-)
-BEGIN
-    UPDATE Proveedores
-    SET Nombre = p_Nombre,
-        Telefono = p_Telefono,
-        Direccion = p_Direccion
-    WHERE ID_Proveedor = p_ID_Proveedor;
-END //
-
-DELIMITER ;
-
-
-DELIMITER //
-CREATE PROCEDURE EditarCliente(
-    IN p_ID_Cliente INT,
-    IN p_Nombre VARCHAR(100),
-    IN p_Telefono VARCHAR(20),
-    IN p_Direccion VARCHAR(255)
-)
-BEGIN
-    UPDATE Clientes
-    SET Nombre = p_Nombre,
-        Telefono = p_Telefono,
-        Direccion = p_Direccion
-    WHERE ID_Cliente = p_ID_Cliente;
+    INSERT INTO Ventas (ID_Cliente, Fecha_Venta, Total)
+    VALUES (p_ID_Cliente, p_Fecha, p_Total);
 END //
 DELIMITER ;
-
 
 DELIMITER //
 CREATE PROCEDURE ListarProductosPorProveedor(
@@ -786,13 +659,12 @@ BEGIN
 END //
 DELIMITER ;
 
-
 DELIMITER //
 CREATE PROCEDURE BuscarProductoPorNombre(
     IN p_Nombre VARCHAR(100)
 )
 BEGIN
-    SELECT * 
+    SELECT *
     FROM Productos
     WHERE Nombre_P LIKE CONCAT('%', p_Nombre, '%');
 END //
@@ -824,173 +696,163 @@ BEGIN
 END //
 DELIMITER ;
 
+-- Funciones 
+
 DELIMITER //
-CREATE PROCEDURE EliminarProducto(
-    IN p_ID_Producto INT
-)
+CREATE FUNCTION ObtenerNombreCompletoCliente(p_ID_Cliente INT)
+RETURNS VARCHAR(255)
+DETERMINISTIC
 BEGIN
-    IF NOT EXISTS (SELECT 1 FROM Detalle_Ventas WHERE ID_Producto = p_ID_Producto)
-    AND NOT EXISTS (SELECT 1 FROM Detalle_Compras WHERE ID_Producto = p_ID_Producto) THEN
-        DELETE FROM Productos
-        WHERE ID_Producto = p_ID_Producto;
-    END IF;
+    DECLARE nombre_completo VARCHAR(255);
+    SELECT CONCAT_WS(' ', Nombre1, Nombre2, Apellidos1, Apellidos2)
+    INTO nombre_completo
+    FROM Clientes
+    WHERE ID_Cliente = p_ID_Cliente;
+    RETURN nombre_completo;
 END //
 DELIMITER ;
 
 DELIMITER //
-
-CREATE PROCEDURE RegistrarVentaSimple(
-    IN p_ID_Cliente INT,
-    IN p_Fecha DATE,
-    IN p_Total DECIMAL(10,2)
-)
+CREATE FUNCTION TotalVentasProducto(p_ID_Producto INT)
+RETURNS FLOAT
+DETERMINISTIC
 BEGIN
-    INSERT INTO Ventas (ID_Cliente, Fecha, Total)
-    VALUES (p_ID_Cliente, p_Fecha, p_Total);
+    DECLARE total FLOAT;
+    SELECT IFNULL(SUM(Cantidad_ven * Precio_Ven), 0)
+    INTO total
+    FROM Detalle_Ventas
+    WHERE ID_Producto = p_ID_Producto;
+    RETURN total;
 END //
-
 DELIMITER ;
 
-CREATE VIEW Productos_Rentables AS
-SELECT 
-    ID_Producto,
-    Nombre_P,
-    Preciodecom,
-    Preciodeven,
-    (Preciodeven - Preciodecom) AS Margen_Ganancia
-FROM Productos
-ORDER BY Margen_Ganancia DESC;
-
-CREATE VIEW Resumen_Inventario AS
-SELECT 
-    SUM(Cantidad * Preciodecom) AS Total_Invertido,
-    SUM(Cantidad * Preciodeven) AS Valor_Potencial_Venta,
-    SUM(Cantidad * (Preciodeven - Preciodecom)) AS Ganancia_Potencial
-FROM Productos;
-
-CREATE VIEW Ventas_Por_Cliente AS
-SELECT 
-    C.ID_Cliente,
-    CONCAT_WS(' ', C.Nombre1, C.Nombre2, C.Apellidos1, C.Apellidos2) AS Nombre_Completo,
-    COUNT(V.ID_Venta) AS Total_Ventas,
-    SUM(DV.Cantidad_ven * DV.Precio_Ven) AS Monto_Total
-FROM Clientes C
-JOIN Ventas V ON C.ID_Cliente = V.ID_Cliente
-JOIN Detalle_Ventas DV ON V.ID_Venta = DV.ID_Venta
-GROUP BY C.ID_Cliente;
-
-CREATE VIEW Proveedores_Mas_Usados AS
-SELECT 
-    P.ID_Proveedor,
-    P.Nombre_Prov,
-    COUNT(C.ID_Compra) AS Total_Compras
-FROM Proveedores P
-JOIN Compras C ON P.ID_Proveedor = C.ID_Proveedor
-GROUP BY P.ID_Proveedor
-ORDER BY Total_Compras DESC;
-
-CREATE VIEW Ventas_Por_Mes AS
-SELECT 
-    DATE_FORMAT(V.Fecha_Venta, '%Y-%m') AS Mes,
-    P.Nombre_P,
-    SUM(DV.Cantidad_ven) AS Total_Vendido
-FROM Detalle_Ventas DV
-JOIN Ventas V ON DV.ID_Venta = V.ID_Venta
-JOIN Productos P ON DV.ID_Producto = P.ID_Producto
-GROUP BY Mes, P.Nombre_P
-ORDER BY Mes, Total_Vendido DESC;
+DELIMITER //
+CREATE FUNCTION TotalComprasProducto(p_ID_Producto INT)
+RETURNS FLOAT
+DETERMINISTIC
+BEGIN
+    DECLARE total FLOAT;
+    SELECT IFNULL(SUM(Cantidad_com * Precio_Com), 0)
+    INTO total
+    FROM Detalle_Compras
+    WHERE ID_Producto = p_ID_Producto;
+    RETURN total;
+END //
+DELIMITER ;
 
 DELIMITER //
+CREATE FUNCTION StockProducto(p_ID_Producto INT)
+RETURNS INT
+DETERMINISTIC
+BEGIN
+    DECLARE stock INT;
+    SELECT Cantidad
+    INTO stock
+    FROM Productos
+    WHERE ID_Producto = p_ID_Producto;
+    RETURN stock;
+END //
+DELIMITER ;
 
 DELIMITER //
+CREATE FUNCTION ClienteActivo(p_ID_Cliente INT)
+RETURNS BOOLEAN
+DETERMINISTIC
+BEGIN
+    DECLARE existe INT;
+    SELECT COUNT(*) INTO existe
+    FROM Ventas
+    WHERE ID_Cliente = p_ID_Cliente;
+    RETURN existe > 0;
+END //
+DELIMITER ;
 
--- 1) Cantidad total en stock de todos los productos
+DELIMITER //
 CREATE FUNCTION TotalStockGlobal()
 RETURNS INT
 DETERMINISTIC
 BEGIN
-  DECLARE total INT;
-  SELECT IFNULL(SUM(Cantidad), 0) INTO total
-  FROM Productos;
-  RETURN total;
+    DECLARE total INT;
+    SELECT IFNULL(SUM(Cantidad), 0) INTO total
+    FROM Productos;
+    RETURN total;
 END //
-
 DELIMITER ;
 
 DELIMITER //
-
--- 2) Precio promedio de venta de todos los productos
 CREATE FUNCTION PromedioPrecioVenta()
 RETURNS DECIMAL(10,2)
 DETERMINISTIC
 BEGIN
-  DECLARE promedio DECIMAL(10,2);
-  SELECT IFNULL(AVG(Preciodeven), 0) INTO promedio
-  FROM Productos;
-  RETURN promedio;
+    DECLARE promedio DECIMAL(10,2);
+    SELECT IFNULL(AVG(Preciodeven), 0) INTO promedio
+    FROM Productos;
+    RETURN promedio;
 END //
-
 DELIMITER ;
 
 DELIMITER //
-
--- 3) Días desde la última compra de un proveedor dado
 CREATE FUNCTION DiasDesdeUltimaCompra(p_ID_Proveedor INT)
 RETURNS INT
 DETERMINISTIC
 BEGIN
-  DECLARE fecha_ultima DATE;
-  DECLARE dias INT;
-  SELECT MAX(Fecha_compra) INTO fecha_ultima
+    DECLARE fecha_ultima DATE;
+    DECLARE dias INT;
+    SELECT MAX(Fecha_compra) INTO fecha_ultima
     FROM Compras
-   WHERE ID_Proveedor = p_ID_Proveedor;
-  IF fecha_ultima IS NULL THEN
-    RETURN NULL;
-  END IF;
-  SET dias = DATEDIFF(CURDATE(), fecha_ultima);
-  RETURN dias;
+    WHERE ID_Proveedor = p_ID_Proveedor;
+    IF fecha_ultima IS NULL THEN
+        RETURN NULL;
+    END IF;
+    SET dias = DATEDIFF(CURDATE(), fecha_ultima);
+    RETURN dias;
 END //
 DELIMITER ;
 
 DELIMITER //
-
--- 4) Total de compras realizadas por un cliente
 CREATE FUNCTION TotalComprasCliente(p_ID_Cliente INT)
 RETURNS INT
 DETERMINISTIC
 BEGIN
-  DECLARE total INT;
-  SELECT IFNULL(COUNT(*), 0) INTO total
-  FROM Ventas
-  WHERE ID_Cliente = p_ID_Cliente;
-  RETURN total;
+    DECLARE total INT;
+    SELECT IFNULL(COUNT(*), 0) INTO total
+    FROM Ventas
+    WHERE ID_Cliente = p_ID_Cliente;
+    RETURN total;
 END //
-
 DELIMITER ;
 
 DELIMITER //
-
--- 5) Monto total vendido en una fecha específica
 CREATE FUNCTION TotalVentasEnFecha(p_Fecha DATE)
 RETURNS DECIMAL(12,2)
 DETERMINISTIC
 BEGIN
-  DECLARE monto DECIMAL(12,2);
-  SELECT IFNULL(SUM(DV.Cantidad_ven * DV.Precio_Ven), 0) INTO monto
-  FROM Ventas V
-  JOIN Detalle_Ventas DV ON V.ID_Venta = DV.ID_Venta
-  WHERE V.Fecha_Venta = p_Fecha;
-  RETURN monto;
+    DECLARE monto DECIMAL(12,2);
+    SELECT IFNULL(SUM(DV.Cantidad_ven * DV.Precio_Ven), 0) INTO monto
+    FROM Ventas V
+    JOIN Detalle_Ventas DV ON V.ID_Venta = DV.ID_Venta
+    WHERE V.Fecha_Venta = p_Fecha;
+    RETURN monto;
 END //
-
 DELIMITER ;
 
+-- Llamados
+
+CALL RegistrarCliente('Juan', 'Carlos', 'Pérez', 'Gómez', '123456789', '3216549870');
+CALL RegistrarProducto('Aceite de Motor', 'Aceite sintético 10W-40', 100, 25.00, 40.00);
+CALL RegistrarProveedor('MotoRepuestos S.A.', '3001234567', 'ventas@motorepuestos.com');
+CALL RegistrarCompra('2025-04-28', 1, 2, 50, 30.00);
+CALL RegistrarVenta('2025-04-28', 2, 3, 5, 50.00);
+CALL EliminarCliente(1);
+CALL ActualizarCliente(1, 'Luis', 'Fernando', 'Martínez', 'Ramírez', '987654321', '3106549870');
+CALL ListarProductosPorProveedor(1);
+CALL BuscarProductoPorNombre('Cadena');
+CALL VerHistorialVentasCliente(3);
+CALL ActualizarStockProducto(10, 50);
+CALL EliminarProducto(8);
+
 SELECT TotalStockGlobal();
-
 SELECT PromedioPrecioVenta();
-
 SELECT DiasDesdeUltimaCompra(2);
-
 SELECT TotalComprasCliente(1);
-
 SELECT TotalVentasEnFecha('2024-03-20');

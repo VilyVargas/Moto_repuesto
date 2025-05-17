@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DAO;
 
 import Modelo.DetalleCompra;
@@ -16,7 +12,7 @@ import java.util.List;
 
 public class DetalleCompraDAO {
     public void crearDetalleCompra(DetalleCompra detalleCompra) throws SQLException {
-        String sql = "INSERT INTO Detalle_Compras (ID_Producto, ID_Compra, Cantidad_com, Precio_Com) VALUES (?, ?)";
+        String sql = "INSERT INTO Detalle_Compras  (ID_Detalle_Com, ID_Producto, ID_Compra, Cantidad_com, Precio_Com) VALUES (?,?,?,?,?)";
         try (Connection c = ConexionDB.getConnection();
              PreparedStatement stmt = c.prepareStatement(sql)) {
             stmt.setInt(1, detalleCompra.getID_Detalle_Com());

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DAO;
 
 import Modelo.Venta;
@@ -22,13 +18,13 @@ public class VentaDAO {
             ID_Venta,  
             fecha_venta, 
             ID_Cliente
-        ) VALUES (?, ?, ?, ?)""";
+        ) VALUES (?, ?, ?)""";
         int generatedId = -1;
 
         try (Connection c = ConexionDB.getConnection(); PreparedStatement stmt = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1, venta.getID_Venta());
             stmt.setDate(2, (java.sql.Date) venta.getFecha_Venta());
-            stmt.setInt(4, venta.getID_Cliente());
+            stmt.setInt(3, venta.getID_Cliente());
             stmt.executeUpdate();
 
             // Obtener el ID generado
@@ -66,7 +62,6 @@ public class VentaDAO {
             stmt.executeUpdate();
         }
     }
-
     public void eliminarVenta(int ID_Venta) throws SQLException {
         String sql = "DELETE FROM Ventas WHERE ID_Venta = ?";
 

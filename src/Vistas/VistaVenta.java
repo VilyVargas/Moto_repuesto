@@ -1,15 +1,17 @@
 package Vistas;
 
 import Controlador.VentaControlador;
+import Controlador.DetalleVentaControlador;
 import Modelo.Venta;
 import java.util.List;
-import java.time.LocalDateTime;
+import java.sql.Date;
+import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
-import java.time.format.DateTimeFormatter;
-import Controlador.DetalleVentaControlador;
+
 public class VistaVenta extends javax.swing.JPanel {
     
      private final VentaControlador VentaControlador;
+     private ArrayList<DetalleVentaControlador> detalles;
      
        public void cargarDatosTabla() {
         //Obtener todas las categorias del controlador
@@ -55,11 +57,11 @@ public class VistaVenta extends javax.swing.JPanel {
         TableVenta = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jTextField9 = new javax.swing.JTextField();
-        jTextFecha_Venta = new javax.swing.JTextField();
-        jTextID_Cliente = new javax.swing.JTextField();
+        ID_Cliente = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
+        Fecha_Venta = new com.toedter.calendar.JDateChooser();
         jPanel1 = new javax.swing.JPanel();
         jButton8 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -104,15 +106,9 @@ public class VistaVenta extends javax.swing.JPanel {
             }
         });
 
-        jTextFecha_Venta.addActionListener(new java.awt.event.ActionListener() {
+        ID_Cliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFecha_VentaActionPerformed(evt);
-            }
-        });
-
-        jTextID_Cliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextID_ClienteActionPerformed(evt);
+                ID_ClienteActionPerformed(evt);
             }
         });
 
@@ -136,10 +132,10 @@ public class VistaVenta extends javax.swing.JPanel {
                     .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextID_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFecha_Venta, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(ID_Cliente, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+                    .addComponent(jTextField9, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+                    .addComponent(Fecha_Venta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(34, 34, 34))
         );
         jPanel2Layout.setVerticalGroup(
@@ -150,12 +146,12 @@ public class VistaVenta extends javax.swing.JPanel {
                     .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel14))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFecha_Venta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel15))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel15)
+                    .addComponent(Fecha_Venta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextID_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ID_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel16))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -271,40 +267,40 @@ public class VistaVenta extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField9ActionPerformed
 
-    private void jTextFecha_VentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFecha_VentaActionPerformed
+    private void ID_ClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ID_ClienteActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFecha_VentaActionPerformed
-
-    private void jTextID_ClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextID_ClienteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextID_ClienteActionPerformed
+    }//GEN-LAST:event_ID_ClienteActionPerformed
 
     private void AccionBotonGuardar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AccionBotonGuardar
-        // TODO add your handling code here:
-        String Fecha_Ven = jTextFecha_Venta.getText();
-        String ID_Cli = jTextID_Cliente.getText();
+        String fecha_venta = Fecha_Venta.getDateFormatString();
+        String id_cliente = ID_Cliente.getText();
 
-        if (!ID_Cli.trim().isEmpty() && !Fecha_Ven.trim().isEmpty()) {
+        if (!fecha_venta.isEmpty() && !id_cliente.isEmpty() ) {
             try {
-                int id_cli = Integer.parseInt(ID_Cli.trim());
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-                LocalDateTime fecha_ven = LocalDateTime.parse(Fecha_Ven.trim(), formatter);
+                Date Fecha_venta = Date.valueOf(fecha_venta.trim());
+                int ID_cliente = Integer.parseInt(id_cliente.trim());
+                
+                
+ 
+                VentaControlador controlador = new VentaControlador();
+                controlador.crearVenta(Fecha_venta, ID_cliente, new java.util.ArrayList<>());
 
-                VentaControlador.crearVenta(fecha_ven, id_cli, detalles);
                 cargarDatosTabla();
-                jTextID_Cliente.setText("");
-                jTextFecha_Venta.setText("");
-                javax.swing.JOptionPane.showMessageDialog(this, "Orden guardada exitosamente", "Éxito", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-            } catch (Exception e) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Error al guardar la orden: " + e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                
+                Fecha_Venta.setDate(Fecha_venta);
+                ID_Cliente.setText(String.valueOf(id_cliente));
+            } catch (NumberFormatException e) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Precio costo, precio venta y existencia deben ser valores numéricos.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            javax.swing.JOptionPane.showMessageDialog(this, "Por favor, llene todos los campos", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            javax.swing.JOptionPane.showMessageDialog(this, "Por favor, llene todos los campos.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_AccionBotonGuardar
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.toedter.calendar.JDateChooser Fecha_Venta;
+    private javax.swing.JTextField ID_Cliente;
     private javax.swing.JTable TableVenta;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -318,10 +314,8 @@ public class VistaVenta extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextFecha_Venta;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField9;
-    private javax.swing.JTextField jTextID_Cliente;
     private javax.swing.JPanel opciones;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,42 +1,10 @@
 package Vistas;
 
-import Controlador.CompraControlador;
-import Modelo.Compra;
-import java.util.Date;
-import java.util.List;
-import javax.swing.table.DefaultTableModel;
 
 public class VistaCompra extends javax.swing.JPanel {
-
-    private final CompraControlador compraControlador;
-    
-    
-    private void cargarDatosTabla() {
-    // Obtener todas las categorías del controlador
-    List<Compra> compras = compraControlador.obtenerTodasCompras();
-
-    if (compras != null) {
-        // Obtener el modelo existente de la tabla
-        DefaultTableModel model = (DefaultTableModel) TableCompra.getModel();
-        // Limpiar las filas existentes
-        model.setRowCount(0);
-
-        // Llenar las filas con los datos de las categorías
-        for (Compra com : compras ) {
-            Object[] row = {
-                com.getID_Compra(),
-                com.getFecha_compra(),
-                com.getID_proveedor()
-            };
-            model.addRow(row);
-        }
-    }
-} 
-    
+     
     public VistaCompra() {
-        initComponents();
-        this.compraControlador = new CompraControlador();
-        cargarDatosTabla();
+
     }
 
 

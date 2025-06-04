@@ -3,16 +3,30 @@ package Vistas;
 import Controlador.VentaControlador;
 import Controlador.DetalleVentaControlador;
 import Modelo.Venta;
+import Modelo.DetalleVenta; // Assumed model class for sale details
 import java.util.List;
-import java.sql.Date;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JOptionPane;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 public class VistaVenta extends javax.swing.JPanel {
     
-     private final VentaControlador VentaControlador;
-     private ArrayList<DetalleVentaControlador> detalles;
+    private final VentaControlador VentaControlador;
+    private final DetalleVentaControlador DetalleVentaControlador; 
+    private ArrayList<DetalleVenta> detalles; 
      
+    
+       private void limpiarCampos() {
+        IdProducto.setText("");
+        IdProducto1.setText("");
+        jDateChooser1.setDate(null);
+        textCantidad.setText("");
+        textPrecio.setText("");
+        detalles.clear();
+        ((DefaultTableModel) TableVenta1.getModel()).setRowCount(0);
+    }
        public void cargarDatosTabla() {
         //Obtener todas las categorias del controlador
         List<Venta> ventas = VentaControlador.obtenerTodasVentas();
@@ -31,6 +45,59 @@ public class VistaVenta extends javax.swing.JPanel {
             }
         }
     }
+       
+       
+        private void cargarDetallesTabla(int idVenta) {
+        List<DetalleVenta> detallesVenta = DetalleVentaControlador.leerTodosDetalleVentas();
+        DefaultTableModel model = (DefaultTableModel) TableVenta1.getModel();
+        model.setRowCount(0);
+        if (detallesVenta != null) {
+            for (DetalleVenta detalle : detallesVenta) {
+                Object[] row = {
+                    detalle.getID_Detalle_ven(),
+                    detalle.getID_Venta(),
+                    detalle.getCantidad_ven(),
+                    detalle.getPrecio_Ven(),
+                    detalle.getID_Producto()
+                };
+                model.addRow(row);
+            }
+        }
+    }
+    
+        
+         private boolean validarCamposVenta() {
+        if (IdProducto1.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El ID de cliente es obligatorio.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (jDateChooser1.getDate() == null) {
+            JOptionPane.showMessageDialog(this, "La fecha de venta es obligatoria.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        try {
+            Integer.parseInt(IdProducto1.getText());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El ID de cliente debe ser numérico.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+    
+        private boolean validarCamposDetalle() {
+        if (textCantidad.getText().isEmpty() || textPrecio.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Cantidad y precio son obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        try {
+            Integer.parseInt(textCantidad.getText());
+            Double.parseDouble(textPrecio.getText());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Cantidad y precio deben ser numéricos.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
+    }
 
     /**
      * Creates new form VistaVenta
@@ -38,7 +105,26 @@ public class VistaVenta extends javax.swing.JPanel {
     public VistaVenta() {
         initComponents();
         this.VentaControlador = new VentaControlador();
+        this.DetalleVentaControlador = new DetalleVentaControlador(); // Initialize controller
+        this.detalles = new ArrayList<>(); // Initialize detalles list
         cargarDatosTabla();
+        
+        
+                TableVenta.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting() && TableVenta.getSelectedRow() != -1) {
+                int idVenta = (int) TableVenta.getValueAt(TableVenta.getSelectedRow(), 0);
+                cargarDetallesTabla(idVenta);
+                // Populate sale fields
+                IdProducto.setText(String.valueOf(idVenta));
+                IdProducto1.setText(String.valueOf(TableVenta.getValueAt(TableVenta.getSelectedRow(), 2)));
+                try {
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    jDateChooser1.setDate(sdf.parse(TableVenta.getValueAt(TableVenta.getSelectedRow(), 1).toString()));
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
     }
 
     /**
@@ -475,15 +561,49 @@ public class VistaVenta extends javax.swing.JPanel {
     }//GEN-LAST:event_textCantidad1ActionPerformed
 
     private void BtnAgregar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAgregar
-       
+        if (validarCamposDetalle()) {
+            DetalleVenta detalle = new DetalleVenta();
+            detalle.setID_Detalle_ven(detalles.size() + 1); // Temporary ID
+            detalle.setID_Venta(Integer.parseInt(IdProducto.getText().isEmpty() ? "0" : IdProducto.getText()));
+            detalle.setCantidad_ven(Integer.parseInt(textCantidad.getText()));
+            detalle.setPrecio_Ven(Float.parseFloat(textPrecio.getText()));
+            detalles.add(detalle);
+            
+            // Update TableVenta1
+            DefaultTableModel model = (DefaultTableModel) TableVenta1.getModel();
+            model.addRow(new Object[]{
+                detalle.getID_Detalle_ven(),
+                detalle.getID_Venta(),
+                detalle.getCantidad_ven(),
+                detalle.getPrecio_Ven(),
+                detalle.getID_Producto()
+            });
+            
+
+            textCantidad.setText("");
+            textPrecio.setText("");
+        }
     }//GEN-LAST:event_BtnAgregar
 
     private void BtnAgregar1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAgregar1
-       
+       BtnAgregar(evt);
     }//GEN-LAST:event_BtnAgregar1
 
     private void BtnEliminar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEliminar
-       
+            int selectedRow = TableVenta.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccione una venta para eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+            
+              }
+        int idVenta = (int) TableVenta.getValueAt(selectedRow, 0);
+        int confirm = JOptionPane.showConfirmDialog(this, "¿Eliminar la venta ID " + idVenta + "?", "Confirmar", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+            VentaControlador.eliminarVenta(idVenta);
+            cargarDatosTabla();
+            limpiarCampos();
+            JOptionPane.showMessageDialog(this, "Venta eliminada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_BtnEliminar
 
     private void BtnEliminar1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEliminar1

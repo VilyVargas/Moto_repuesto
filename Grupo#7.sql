@@ -843,7 +843,7 @@ CALL RegistrarProducto('Aceite de Motor', 'Aceite sintético 10W-40', 100, 25.00
 CALL RegistrarProveedor('MotoRepuestos S.A.', '3001234567', 'ventas@motorepuestos.com');
 CALL RegistrarCompra('2025-04-28', 1, 2, 50, 30.00);
 CALL RegistrarVenta('2025-04-28', 2, 3, 5, 50.00);
-CALL EliminarCliente(1);
+CALL EliminarCliente(22);
 CALL ActualizarCliente(1, 'Luis', 'Fernando', 'Martínez', 'Ramírez', '987654321', '3106549870');
 CALL ListarProductosPorProveedor(1);
 CALL BuscarProductoPorNombre('Cadena');

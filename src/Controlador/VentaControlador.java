@@ -21,12 +21,14 @@ public class VentaControlador {
     }
     // Método para crear una nueva venta con sus detalles
 
-    public void crearVenta( Date fechaVenta, int ID_Cliente, List<DetalleVenta> detalles) {
+    public void crearVenta( Date fechaVenta, int ID_Cliente, float totalVenta, List<DetalleVenta> detalles) {
         try {
             Venta venta = new Venta();
             venta.setFecha_Venta(fechaVenta);
             venta.setID_Cliente(ID_Cliente);
+            venta.setTotalVenta(totalVenta);
             int ID_Venta = ventaDAO.crearVenta(venta);
+            
 
             if (ID_Venta == -1) {
                 throw new SQLException("No se pudo obtener el ID de la venta.");
@@ -54,12 +56,13 @@ public class VentaControlador {
         }
     }
     // Método para actualizar una venta existente
-    public void actualizarVenta(int ID_Venta,  Date fechaVenta, int ID_Cliente) {
+    public void actualizarVenta(int ID_Venta,  Date fechaVenta, float totalVenta, int ID_Cliente) {
         try {
             Venta venta = new Venta();
             venta.setID_Venta(ID_Venta);
             venta.setFecha_Venta(fechaVenta);
             venta.setID_Cliente(ID_Cliente);
+            venta.setTotalVenta(totalVenta);
             ventaDAO.actualizarVenta(venta);
             JOptionPane.showMessageDialog(null, "Venta actualizada exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {

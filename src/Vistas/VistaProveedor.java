@@ -5,20 +5,17 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import Modelo.Proveedor;
 
-
-
 public class VistaProveedor extends javax.swing.JPanel {
 
     private final ProveedorControlador proveedorControlador;
-    private String IdTablaSeleccionada = null;
-    
-    
-           public void cargarDatosTabla() {
+    private Integer IdTablaSeleccionada = null;
+
+    public void cargarDatosTabla() {
         //Obtener todas las categorias del controlador
         List<Proveedor> proveedor = proveedorControlador.obtenerTodosProveedores();
         if (proveedor != null) {
             // obtener el modelo existente de la tabla
-            DefaultTableModel model = (DefaultTableModel) TablaProveedor.getModel();
+            DefaultTableModel model = (DefaultTableModel) TablaPro.getModel();
             model.setRowCount(0);
             //llenar las filas con los datos de categorias  
             for (Proveedor prov : proveedor) {
@@ -32,12 +29,12 @@ public class VistaProveedor extends javax.swing.JPanel {
             }
         }
     }
+
     public VistaProveedor() {
         initComponents();
-         this.proveedorControlador = new ProveedorControlador();
+        this.proveedorControlador = new ProveedorControlador();
         cargarDatosTabla();
 
-        
     }
 
     /**
@@ -52,7 +49,7 @@ public class VistaProveedor extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         opciones = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        TablaProveedor = new javax.swing.JTable();
+        TablaPro = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         NombreProveedor = new javax.swing.JTextField();
         ContactoProveedor = new javax.swing.JTextField();
@@ -73,7 +70,7 @@ public class VistaProveedor extends javax.swing.JPanel {
         opciones.setBackground(new java.awt.Color(204, 204, 204));
         opciones.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(253, 11, 11)));
 
-        TablaProveedor.setModel(new javax.swing.table.DefaultTableModel(
+        TablaPro.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -84,15 +81,27 @@ public class VistaProveedor extends javax.swing.JPanel {
                 "ID Proveedor", "Nombre Proveedor", "Contacto", "Email"
             }
         ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false
             };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(TablaProveedor);
+        TablaPro.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TablaPro(evt);
+            }
+        });
+        jScrollPane1.setViewportView(TablaPro);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(243, 7, 7)));
 
@@ -305,19 +314,18 @@ public class VistaProveedor extends javax.swing.JPanel {
         String nombre_proveedor = NombreProveedor.getText();
         String contacto = ContactoProveedor.getText();
         String email = EmailProveedor.getText();
-       
 
         if (!nombre_proveedor.isEmpty() && !contacto.isEmpty() && !email.isEmpty()) {
-            try{
-                
-             ProveedorControlador controlador = new ProveedorControlador();
-             controlador.crearProveedor(nombre_proveedor, contacto,email);
-                
-            cargarDatosTabla();
+            try {
+
+                ProveedorControlador controlador = new ProveedorControlador();
+                controlador.crearProveedor(nombre_proveedor, contacto, email);
+
+                cargarDatosTabla();
                 NombreProveedor.setText("");
                 ContactoProveedor.setText("");
                 EmailProveedor.setText("");
-                
+
             } catch (NumberFormatException e) {
                 javax.swing.JOptionPane.showMessageDialog(this, "Precio costo, precio venta y existencia deben ser valores numéricos.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
             }
@@ -327,9 +335,9 @@ public class VistaProveedor extends javax.swing.JPanel {
     }//GEN-LAST:event_BtnAgregar
 
     private void BtnEliminar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEliminar
-          int filaSelecionada = TablaProveedor.getSelectedRow();
+        int filaSelecionada = TablaPro.getSelectedRow();
         if (filaSelecionada != -1) {
-            int id_proveedor = (int) TablaProveedor.getValueAt(filaSelecionada, 0);
+            int id_proveedor = (int) TablaPro.getValueAt(filaSelecionada, 0);
             proveedorControlador.eliminarProveedor(id_proveedor);
             cargarDatosTabla();
         } else {
@@ -350,7 +358,6 @@ public class VistaProveedor extends javax.swing.JPanel {
             NombreProveedor.setText("");
             ContactoProveedor.setText("");
             EmailProveedor.setText("");
-           
 
             IdTablaSeleccionada = null;
 
@@ -365,7 +372,7 @@ public class VistaProveedor extends javax.swing.JPanel {
         String textoBusqueda = txtBusqueda.getText().trim().toLowerCase();
         List<Proveedor> proveedor = proveedorControlador.obtenerTodosProveedores();
 
-        DefaultTableModel modelo = (DefaultTableModel) TablaProveedor.getModel();
+        DefaultTableModel modelo = (DefaultTableModel) TablaPro.getModel();
         modelo.setRowCount(0);
 
         if (proveedor != null) {
@@ -384,6 +391,26 @@ public class VistaProveedor extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_txtBusqueda
 
+    private void TablaPro(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaPro
+        if (evt.getClickCount() == 2) {
+            int filaselecionada = TablaPro.getSelectedRow();
+
+            if (filaselecionada != -1) {
+                IdTablaSeleccionada = (Integer) TablaPro.getValueAt(filaselecionada, 0);
+                String nombre_proveedor = (String) TablaPro.getValueAt(filaselecionada, 1);
+                String contacto = (String) TablaPro.getValueAt(filaselecionada, 2);
+                String email = (String) TablaPro.getValueAt(filaselecionada, 3);
+
+                NombreProveedor.setText(nombre_proveedor);
+                ContactoProveedor.setText(contacto);
+                EmailProveedor.setText(email);
+
+                BtnEliminar.setEnabled(false);
+                BtnAgregar.setEnabled(false);
+            }
+        }
+    }//GEN-LAST:event_TablaPro
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnActualizar;
@@ -392,7 +419,7 @@ public class VistaProveedor extends javax.swing.JPanel {
     private javax.swing.JTextField ContactoProveedor;
     private javax.swing.JTextField EmailProveedor;
     private javax.swing.JTextField NombreProveedor;
-    private javax.swing.JTable TablaProveedor;
+    private javax.swing.JTable TablaPro;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;

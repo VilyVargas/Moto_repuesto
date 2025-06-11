@@ -44,12 +44,13 @@ public class ProveedorDAO {
         return proveedores;
     }
     public void actualizarProveedor(Proveedor proveedor) throws SQLException {
-        String sql = "UPDATE Proveedores SET getNombre_Prov = ?, getContacto = ?, getEmail = ? WHERE ID_Proveedor = ?";
+        String sql = "UPDATE Proveedores SET Nombre_Prov = ?, Contacto = ?, Email = ? WHERE ID_Proveedor = ?";
 
         try (Connection c = ConexionDB.getConnection(); PreparedStatement stmt = c.prepareStatement(sql)) {
             stmt.setString(1, proveedor.getNombre_Prov());
             stmt.setString(2, proveedor.getContacto());
-            stmt.setString(3, proveedor.getEmail());
+            stmt.setString(3, proveedor.getEmail()); 
+            stmt.setInt(4,  proveedor.getID_Proveedor());
             stmt.executeUpdate();
         }
     }

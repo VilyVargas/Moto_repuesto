@@ -24,7 +24,7 @@ public class ProveedorControlador {
             proveedorDAO.crearProveedor(proveedor);
             JOptionPane.showMessageDialog(null, "Producto creado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al crear el producto: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error al crear el proveedor: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
         
@@ -32,7 +32,7 @@ public class ProveedorControlador {
         try {
             return proveedorDAO.leerTodosProveedor();
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al leer las categorías: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error al leer los Proveedores: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             return null;
         }
     }
@@ -43,18 +43,18 @@ public class ProveedorControlador {
             proveedor.setContacto(Contacto);
             proveedor.setEmail(Email);
             proveedorDAO.actualizarProveedor(proveedor);
-            JOptionPane.showMessageDialog(null, "Categoría actualizada exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Proveedor actualizado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al actualizar la categoría: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error al actualizar la Proveedor: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     
       public void eliminarProveedor(int id) {
         try {
             proveedorDAO.eliminarProveedor(id);
-            JOptionPane.showMessageDialog(null, "Categoría eliminada exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Proveedor eliminado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al eliminar la categoría: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error al eliminar el proveedor: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

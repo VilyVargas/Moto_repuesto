@@ -460,8 +460,8 @@ public class VistaProducto extends javax.swing.JPanel {
                 id_productoSeleccionado = (Integer) TablaProducto.getValueAt(filaSelecionada, 0);
                 String nombre_producto = (String) TablaProducto.getValueAt(filaSelecionada, 1);
                 String descripcion = (String) TablaProducto.getValueAt(filaSelecionada, 2);
-                Float precio_costo = ((Number) TablaProducto.getValueAt(filaSelecionada, 3)).floatValue();
-                Integer existencia = ((Number) TablaProducto.getValueAt(filaSelecionada, 4)).intValue();
+                Integer existencia = ((Number) TablaProducto.getValueAt(filaSelecionada, 3)).intValue();
+                Float precio_costo = ((Number) TablaProducto.getValueAt(filaSelecionada, 4)).floatValue();
                 Float precio_venta = ((Number) TablaProducto.getValueAt(filaSelecionada, 5)).floatValue();
                 
 

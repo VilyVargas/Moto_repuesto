@@ -9,7 +9,7 @@ import javax.swing.table.DefaultTableModel;
 public class VistaProducto extends javax.swing.JPanel {
 
     private final ProductoControlador productoControlador;
-    private Integer id_productoSeleccionado = -1;
+    private Integer id_productoSeleccionado = null;
     
        public void cargarDatosTabla() {
         //Obtener todas las categorias del controlador
@@ -54,13 +54,11 @@ public class VistaProducto extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaProducto = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
-        IdProducto = new javax.swing.JTextField();
         NombreProducto = new javax.swing.JTextField();
         Descripcion = new javax.swing.JTextField();
         txtExistencia = new javax.swing.JTextField();
         txtPrecioCosto = new javax.swing.JTextField();
         txtPrecioVenta = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -101,9 +99,16 @@ public class VistaProducto extends javax.swing.JPanel {
                 "ID Producto", "Nombre Producto", "Descripcion", "Existencia", "Precio Costo", "Precio Venta"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Float.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -117,12 +122,6 @@ public class VistaProducto extends javax.swing.JPanel {
         jScrollPane1.setViewportView(TablaProducto);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(250, 4, 4)));
-
-        IdProducto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                IdProductoActionPerformed(evt);
-            }
-        });
 
         NombreProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -154,9 +153,6 @@ public class VistaProducto extends javax.swing.JPanel {
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel2.setText("ID_Producto");
-
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel3.setText("Nombre_Prod");
 
@@ -179,7 +175,6 @@ public class VistaProducto extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
                     .addComponent(jLabel5)
@@ -191,8 +186,7 @@ public class VistaProducto extends javax.swing.JPanel {
                     .addComponent(txtPrecioCosto, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtExistencia, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Descripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(NombreProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(IdProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(NombreProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(55, 55, 55))
         );
         jPanel1Layout.setVerticalGroup(
@@ -200,20 +194,19 @@ public class VistaProducto extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(IdProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(NombreProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Descripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtExistencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
+                    .addComponent(jLabel4)
+                    .addComponent(Descripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addComponent(jLabel5))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtExistencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtPrecioCosto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -324,7 +317,7 @@ public class VistaProducto extends javax.swing.JPanel {
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -347,10 +340,6 @@ public class VistaProducto extends javax.swing.JPanel {
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
-
-    private void IdProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IdProductoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_IdProductoActionPerformed
 
     private void NombreProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NombreProductoActionPerformed
         // TODO add your handling code here:
@@ -437,7 +426,7 @@ public class VistaProducto extends javax.swing.JPanel {
                 cargarDatosTabla();
 
                 // Limpiamos los campos de texto
-                 NombreProducto.setText("");
+                NombreProducto.setText("");
                 Descripcion.setText("");
                 txtExistencia.setText(String.valueOf(Existencia));
                 txtPrecioCosto.setText(String.valueOf(PrecioCosto));
@@ -464,16 +453,17 @@ public class VistaProducto extends javax.swing.JPanel {
     }//GEN-LAST:event_BtnActualizar
 
     private void TablaProducto(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaProducto
-                if (evt.getClickCount() == 2) {
+        if (evt.getClickCount() == 2) {
             int filaSelecionada = TablaProducto.getSelectedRow();
 
             if (filaSelecionada != -1) {
                 id_productoSeleccionado = (Integer) TablaProducto.getValueAt(filaSelecionada, 0);
                 String nombre_producto = (String) TablaProducto.getValueAt(filaSelecionada, 1);
-                String descripcion =(String)TablaProducto.getValueAt(filaSelecionada, 2);
-                Float precio_costo = (Float) TablaProducto.getValueAt(filaSelecionada, 3);
-                Float precio_venta = (Float) TablaProducto.getValueAt(filaSelecionada, 4);
-                Integer existencia = (Integer) TablaProducto.getValueAt(filaSelecionada, 5);
+                String descripcion = (String) TablaProducto.getValueAt(filaSelecionada, 2);
+                Float precio_costo = ((Number) TablaProducto.getValueAt(filaSelecionada, 3)).floatValue();
+                Integer existencia = ((Number) TablaProducto.getValueAt(filaSelecionada, 4)).intValue();
+                Float precio_venta = ((Number) TablaProducto.getValueAt(filaSelecionada, 5)).floatValue();
+                
 
                 NombreProducto.setText(nombre_producto);
                 Descripcion.setText(descripcion);
@@ -533,13 +523,11 @@ public class VistaProducto extends javax.swing.JPanel {
     private javax.swing.JButton BtnAgregar;
     private javax.swing.JButton BtnEliminar;
     private javax.swing.JTextField Descripcion;
-    private javax.swing.JTextField IdProducto;
     private javax.swing.JTextField NombreProducto;
     private javax.swing.JTable TablaProducto;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

@@ -3,8 +3,21 @@ package Vistas;
 
 import Controlador.ProductoControlador;
 import Modelo.Producto;
+import com.itextpdf.io.image.ImageData;
+import com.itextpdf.io.image.ImageDataFactory;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Image;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.property.TextAlignment;
+import com.itextpdf.layout.property.UnitValue;
+import java.awt.FileDialog;
+import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
 
 public class VistaProducto extends javax.swing.JPanel {
 
@@ -68,7 +81,7 @@ public class VistaProducto extends javax.swing.JPanel {
         BtnAgregar = new javax.swing.JButton();
         BtnEliminar = new javax.swing.JButton();
         BtnActualizar = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnReportes = new javax.swing.JButton();
         txtBusqueda = new javax.swing.JTextField();
 
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
@@ -200,14 +213,11 @@ public class VistaProducto extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(Descripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(jLabel5))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtExistencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtExistencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addGap(11, 11, 11)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtPrecioCosto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
@@ -247,9 +257,14 @@ public class VistaProducto extends javax.swing.JPanel {
             }
         });
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/buscar (1).png"))); // NOI18N
-        jButton1.setText("Buscar");
+        btnReportes.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnReportes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/buscar (1).png"))); // NOI18N
+        btnReportes.setText("Generar Reporte");
+        btnReportes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                accionbtnReportes(evt);
+            }
+        });
 
         txtBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -273,11 +288,11 @@ public class VistaProducto extends javax.swing.JPanel {
                                 .addComponent(BtnActualizar)))
                         .addGap(37, 37, 37))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(123, 123, 123))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(BtnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(118, 118, 118))))
+                        .addGap(118, 118, 118))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(btnReportes)
+                        .addGap(100, 100, 100))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -289,7 +304,7 @@ public class VistaProducto extends javax.swing.JPanel {
                     .addComponent(BtnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BtnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnReportes, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -517,6 +532,74 @@ public class VistaProducto extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_txtBusqueda
 
+    private void accionbtnReportes(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accionbtnReportes
+     try {
+        FileDialog dialogoArchivo = new FileDialog((java.awt.Frame) null, "Guardar Reporte PDF", FileDialog.SAVE);
+        dialogoArchivo.setFile("ReportesProductos.pdf");
+        dialogoArchivo.setVisible(true);
+
+        String ruta = dialogoArchivo.getDirectory();
+        String nombreArchivo = dialogoArchivo.getFile();
+
+        if (ruta == null || nombreArchivo == null) {
+            JOptionPane.showMessageDialog(this, "Operación cancelada", "Información", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        String rutaCompleta = ruta + nombreArchivo;
+
+        // Usamos try-with-resources para asegurar el cierre de recursos
+        try (PdfWriter escritor = new PdfWriter(rutaCompleta);
+             PdfDocument pdf = new PdfDocument(escritor);
+             Document documento = new Document(pdf)) {
+
+            // Título y fecha
+            documento.add(new Paragraph("Reportes de Productos")
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .setFontSize(20)
+                    .setBold());
+
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            documento.add(new Paragraph("Fecha: " + formatoFecha.format(new java.util.Date()))
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .setFontSize(12));
+
+            // Crear tabla
+            Table tabla = new Table(6).setWidth(UnitValue.createPercentValue(100));
+            String[] headers = {"ID Producto", "Nombre Producto", "Descripción Producto", "ID Categoría", "Precio Unitario", "Stock"};
+            for (String header : headers) {
+                tabla.addHeaderCell(header).setBold();
+            }
+
+            // Obtener lista de productos
+            List<Producto> listaProductos = productoControlador.obtenerTodosProductos();
+            if (listaProductos != null) {
+                for (Producto producto : listaProductos) {
+                    tabla.addCell(String.valueOf(producto.getID_Producto()));
+                    tabla.addCell(producto.getNombre_P()!= null ? producto.getNombre_P(): "N/A");
+                    tabla.addCell(producto.getDescripcion()!= null ? producto.getDescripcion(): "N/A");
+                    tabla.addCell(String.valueOf(producto.getPreciodecom()));
+                    tabla.addCell(String.valueOf(producto.getPreciodeven()));
+                    tabla.addCell(String.valueOf(producto.getCantidad()));
+                }
+            }
+            documento.add(tabla);
+            documento.add(new Paragraph("Notas: Reporte generado automáticamente desde el sistema.")
+                    .setFontSize(10)
+                    .setMarginTop(20));
+
+            // Mensaje de éxito
+            JOptionPane.showMessageDialog(this, "Reporte PDF generado con éxito en: " + rutaCompleta, "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error al generar el PDF: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+
+
+    }//GEN-LAST:event_accionbtnReportes
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnActualizar;
@@ -525,7 +608,7 @@ public class VistaProducto extends javax.swing.JPanel {
     private javax.swing.JTextField Descripcion;
     private javax.swing.JTextField NombreProducto;
     private javax.swing.JTable TablaProducto;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnReportes;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;

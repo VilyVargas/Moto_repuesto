@@ -4,7 +4,16 @@ import Controlador.ClienteControlador;
 import Modelo.Cliente;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
-
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.property.TextAlignment;
+import com.itextpdf.layout.property.UnitValue;
+import java.awt.FileDialog;
+import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
 
 public class VistaCliente extends javax.swing.JPanel {
 
@@ -67,7 +76,7 @@ public class VistaCliente extends javax.swing.JPanel {
         jLabel8 = new javax.swing.JLabel();
         Apellido2 = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        btnReportes = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         BtnActualizar = new javax.swing.JButton();
         BtnAgregar = new javax.swing.JButton();
@@ -201,9 +210,14 @@ public class VistaCliente extends javax.swing.JPanel {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(253, 1, 1)));
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/buscar (1).png"))); // NOI18N
-        jButton1.setText("Buscar");
+        btnReportes.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnReportes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/buscar (1).png"))); // NOI18N
+        btnReportes.setText("Generar Reporte");
+        btnReportes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                accionbtnReportes(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar-usuario (1).png"))); // NOI18N
@@ -248,10 +262,6 @@ public class VistaCliente extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(BtnActualizar)
                 .addGap(24, 24, 24))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(117, 117, 117)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -261,6 +271,10 @@ public class VistaCliente extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(BtnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(119, 119, 119))))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(96, 96, 96)
+                .addComponent(btnReportes)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -275,7 +289,7 @@ public class VistaCliente extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnReportes, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(textBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -438,6 +452,73 @@ public class VistaCliente extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_textBusqueda
 
+    private void accionbtnReportes(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accionbtnReportes
+        // TODO add your handling code here:
+        try {
+        FileDialog dialogoArchivo = new FileDialog((java.awt.Frame) null, "Guardar Reporte PDF", FileDialog.SAVE);
+        dialogoArchivo.setFile("ReportesClientes.pdf");
+        dialogoArchivo.setVisible(true);
+
+        String ruta = dialogoArchivo.getDirectory();
+        String nombreArchivo = dialogoArchivo.getFile();
+
+        if (ruta == null || nombreArchivo == null) {
+            JOptionPane.showMessageDialog(this, "Operación cancelada", "Información", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        String rutaCompleta = ruta + nombreArchivo;
+
+        try (PdfWriter escritor = new PdfWriter(rutaCompleta);
+             PdfDocument pdf = new PdfDocument(escritor);
+             Document documento = new Document(pdf)) {
+
+            // Título y fecha
+            documento.add(new Paragraph("Reporte de Clientes")
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .setFontSize(20)
+                    .setBold());
+
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            documento.add(new Paragraph("Fecha: " + formatoFecha.format(new java.util.Date()))
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .setFontSize(12));
+
+            // Crear tabla
+            Table tabla = new Table(7).setWidth(UnitValue.createPercentValue(100));
+            String[] headers = {"ID Cliente", "Nombre1", "Nombre2", "Apellido1", "Apellido2", "Cedula", "Telefono"};
+            for (String header : headers) {
+                tabla.addHeaderCell(header).setBold();
+            }
+
+            // Obtener lista de clientes
+            List<Cliente> listaClientes = clienteControlador.leerTodosCliente();
+            if (listaClientes != null) {
+                for (Cliente cliente : listaClientes) {
+                    tabla.addCell(String.valueOf(cliente.getID_Cliente()));
+                    tabla.addCell(cliente.getNombre1());
+                    tabla.addCell(cliente.getNombre2());
+                    tabla.addCell(cliente.getApellidos1());
+                    tabla.addCell(cliente.getApellidos2());
+                    tabla.addCell(cliente.getCedula());
+                    tabla.addCell(cliente.getTelefono());
+                }
+            }
+            documento.add(tabla);
+
+            documento.add(new Paragraph("Notas: Reporte generado automáticamente desde el sistema.")
+                    .setFontSize(10)
+                    .setMarginTop(20));
+
+            // Mensaje de éxito
+            JOptionPane.showMessageDialog(this, "Reporte PDF generado con éxito en: " + rutaCompleta, "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error al generar el PDF: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_accionbtnReportes
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField Apellido1;
@@ -449,7 +530,7 @@ public class VistaCliente extends javax.swing.JPanel {
     private javax.swing.JTextField Nombre2;
     private javax.swing.JTable TablaCliente;
     private javax.swing.JTextField Telefono;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnReportes;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;

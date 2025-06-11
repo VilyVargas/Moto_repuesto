@@ -1,13 +1,20 @@
 package Vistas;
 
+import java.awt.Graphics;
+import java.awt.Image;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+
 
 
 public class VistaPrincipal extends javax.swing.JFrame {
 
-    /**
-     * Creates new form VistaPrincipal
-     */
+    FondoPanel fondo = new FondoPanel();
+    
     public VistaPrincipal() {
+        
+        this.setContentPane(fondo);
+        
         initComponents();
          opciones.addTab("Productos", new VistaProducto());
          opciones.addTab("Cliente", new VistaCliente());
@@ -29,29 +36,34 @@ public class VistaPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         opciones = new javax.swing.JTabbedPane();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        jPanel1 = new FondoPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo lindo.png"))); // NOI18N
-        opciones.addTab("MENU", jLabel1);
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 841, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 537, Short.MAX_VALUE)
+        );
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fonfo negro.jpeg"))); // NOI18N
+        opciones.addTab("MENU", jPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(opciones)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(opciones, javax.swing.GroupLayout.PREFERRED_SIZE, 572, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap()
+                .addComponent(opciones, javax.swing.GroupLayout.DEFAULT_SIZE, 572, Short.MAX_VALUE))
         );
 
         pack();
@@ -93,8 +105,25 @@ public class VistaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JTabbedPane opciones;
     // End of variables declaration//GEN-END:variables
+
+    class FondoPanel extends JPanel
+    {
+        private Image imagen;
+        
+        @Override
+        public void paint(Graphics g){
+        
+            imagen = new ImageIcon(getClass().getResource("/Imagenes/DISE FIGMA.png")).getImage();
+            
+            g.drawImage(imagen, 0, 0, getWidth(), getHeight(), this);
+            
+            setOpaque(false);
+            
+            super.paint(g);
+        }
+    }
+
 }

@@ -29,7 +29,7 @@ public class DetalleVentaControlador {
         }
     }
     // Método para obtener todos los clientes
-    public List<DetalleVenta> leerTodosDetalleVentas() {
+    public List<DetalleVenta> ObtenerTodosDetalles() {
         try {
             return detalleventaDAO.leerTodoDetalleVenta();
         } catch (SQLException e) {

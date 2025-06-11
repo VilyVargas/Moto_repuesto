@@ -207,7 +207,7 @@ public class VistaVenta extends javax.swing.JPanel {
         BtnAgregar2 = new javax.swing.JButton();
         BtnActualizar = new javax.swing.JButton();
         BtnEliminar = new javax.swing.JButton();
-        BtnEliminar1 = new javax.swing.JButton();
+        BtnLimpiar = new javax.swing.JButton();
 
         jButton7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/agregar-contacto (2).png"))); // NOI18N
@@ -493,12 +493,12 @@ public class VistaVenta extends javax.swing.JPanel {
             }
         });
 
-        BtnEliminar1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        BtnEliminar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar-usuario (1).png"))); // NOI18N
-        BtnEliminar1.setText("Limpiar");
-        BtnEliminar1.addActionListener(new java.awt.event.ActionListener() {
+        BtnLimpiar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        BtnLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar-usuario (1).png"))); // NOI18N
+        BtnLimpiar.setText("Limpiar");
+        BtnLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnEliminar1(evt);
+                BtnLimpiar(evt);
             }
         });
 
@@ -524,7 +524,7 @@ public class VistaVenta extends javax.swing.JPanel {
                         .addContainerGap())))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, opcionesLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(BtnEliminar1)
+                .addComponent(BtnLimpiar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(BtnEliminar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -552,7 +552,7 @@ public class VistaVenta extends javax.swing.JPanel {
                     .addComponent(BtnAgregar2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BtnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BtnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BtnEliminar1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(BtnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -711,9 +711,10 @@ public class VistaVenta extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_BtnEliminar
 
-    private void BtnEliminar1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEliminar1
+    private void BtnLimpiar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnLimpiar
         // TODO add your handling code here:
-    }//GEN-LAST:event_BtnEliminar1
+        limpiarCampos();
+    }//GEN-LAST:event_BtnLimpiar
 
     private void BtnActualizar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnActualizar
        
@@ -735,7 +736,7 @@ public class VistaVenta extends javax.swing.JPanel {
     private javax.swing.JButton BtnAgregar1;
     private javax.swing.JButton BtnAgregar2;
     private javax.swing.JButton BtnEliminar;
-    private javax.swing.JButton BtnEliminar1;
+    private javax.swing.JButton BtnLimpiar;
     private javax.swing.JTextField ID_Venta;
     private javax.swing.JTextField IdProducto;
     private javax.swing.JTable TableVenta;

@@ -21,12 +21,14 @@ public class CompraControlador {
     }
     
     // Método para crear una nueva compra con sus detalles
-    public void crearCompra(int ID_Compra, Date fechaCompra, int ID_Proveedor, List<DetalleCompra> detalles) {
+    public void crearCompra(int ID_Compra, Date fechaCompra,int Cantidad,int ID_Producto ,int ID_Proveedor, List<DetalleCompra> detalles) {
         try {
             Compra compra = new Compra();
             compra.setID_Compra(ID_Compra);
             compra.setFecha_compra(fechaCompra);
-            compra.setID_proveedor(ID_Proveedor);
+            compra.setCantidad(Cantidad);
+            compra.setID_Producto(ID_Producto);
+            compra.setID_Proveedor(ID_Proveedor);
 
             if (ID_Compra == -1) {
                 throw new SQLException("No se pudo obtener el ID de la compra.");
@@ -55,12 +57,14 @@ public class CompraControlador {
     }
     
     // Método para actualizar una compra existente
-    public void actualizarCompra(int ID_Compra, Date fechaCompra, int ID_Proveedor) {
+    public void actualizarCompra(int ID_Compra, Date fechaCompra, int Cantidad,int ID_Producto ,int ID_Proveedor) {
         try {
             Compra compra = new Compra();
             compra.setID_Compra(ID_Compra);
             compra.setFecha_compra(fechaCompra);
-            compra.setID_proveedor(ID_Proveedor);
+            compra.setCantidad(Cantidad);
+            compra.setID_Producto(ID_Producto);
+            compra.setID_Proveedor(ID_Proveedor);
             compraDAO.actualizarCompra(compra);
             JOptionPane.showMessageDialog(null, "Compra actualizada exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {

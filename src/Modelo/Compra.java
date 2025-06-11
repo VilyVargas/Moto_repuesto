@@ -1,22 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Modelo;
+
 import java.util.Date;
 
 public class Compra {
     private int ID_Compra;
     private Date Fecha_compra;
-    private int ID_proveedor;
+    private int Cantidad;
+    private int ID_Producto;
+    private int ID_Proveedor;
 
     public Compra() {
-    }
-
-    public Compra(int ID_Compra, Date Fecha_compra, int ID_proveedor) {
-        this.ID_Compra = ID_Compra;
-        this.Fecha_compra = Fecha_compra;
-        this.ID_proveedor = ID_proveedor;
     }
 
     public int getID_Compra() {
@@ -35,12 +28,37 @@ public class Compra {
         this.Fecha_compra = Fecha_compra;
     }
 
-    public int getID_proveedor() {
-        return ID_proveedor;
+    public int getCantidad() {
+        return Cantidad;
     }
 
-    public void setID_proveedor(int ID_proveedor) {
-        this.ID_proveedor = ID_proveedor;
+    public void setCantidad(int Cantidad) {
+        this.Cantidad = Cantidad;
     }
-    
+
+    public int getID_Producto() {
+        return ID_Producto;
+    }
+
+    public void setID_Producto(int ID_Producto) {
+        this.ID_Producto = ID_Producto;
+    }
+
+    public int getID_Proveedor() {
+        return ID_Proveedor;
+    }
+
+    public void setID_Proveedor(int ID_Proveedor) {
+        this.ID_Proveedor = ID_Proveedor;
+    }
+
+    public Compra(int ID_Compra, Date Fecha_compra, int Cantidad, int ID_Producto, int ID_Proveedor) {
+        this.ID_Compra = ID_Compra;
+        this.Fecha_compra = Fecha_compra;
+        this.Cantidad = Cantidad;
+        this.ID_Producto = ID_Producto;
+        this.ID_Proveedor = ID_Proveedor;
+    }
+
+  
 }

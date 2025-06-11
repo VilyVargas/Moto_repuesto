@@ -2,6 +2,7 @@ package Controlador;
 
 import DAO.ProductoDAO;
 import Modelo.Producto;
+import Modelo.Proveedor;
 import java.sql.SQLException;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -65,5 +66,15 @@ public class ProductoControlador {
             JOptionPane.showMessageDialog(null, "Error al eliminar el producto: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+    
+        public Producto obtenerProductoPorId(int ID_Producto) {
+        try {
+            return productoDAO.obtenerProductoPorId(ID_Producto);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al buscar el empleado: " + e.getMessage());
+            return null;
+        }
+    }
+    
     
 }

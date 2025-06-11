@@ -31,6 +31,7 @@ CREATE TABLE Proveedores(
 CREATE TABLE Compras (
     ID_Compra INT AUTO_INCREMENT PRIMARY KEY,
     Fecha_compra DATE NOT NULL,
+    Cantidad INT,
     ID_Proveedor INT,
     FOREIGN KEY (ID_Proveedor) REFERENCES Proveedores (ID_Proveedor)
 );

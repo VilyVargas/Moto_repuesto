@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DAO;
 
 import Util.ConexionDB;
@@ -22,7 +18,9 @@ public class CompraDAO {
              PreparedStatement stmt = c.prepareStatement(sql)) {
             stmt.setInt(1, categoria.getID_Compra());
             stmt.setDate(2, (java.sql.Date) categoria.getFecha_compra());
-            stmt.setInt(3, categoria.getID_proveedor());
+            stmt.setInt(3, categoria.getCantidad());
+            stmt.setInt(4, categoria.getID_Producto());
+            stmt.setInt(5, categoria.getID_Proveedor());
             stmt.executeUpdate();
         }
     }
@@ -37,7 +35,9 @@ public class CompraDAO {
                 Compra compra = new Compra();
                 compra.setID_Compra(rs.getInt("ID_Compra"));
                 compra.setFecha_compra(rs.getDate("Fecha_compra"));
-                compra.setID_proveedor(rs.getInt("ID_proveedor"));
+                compra.setCantidad(rs.getInt("Cantidad"));
+                compra.setID_Producto(rs.getInt("ID_Producto"));
+                compra.setID_Proveedor(rs.getInt("ID_Proveedor"));
                 compras.add(compra);
             }
         }
@@ -48,7 +48,9 @@ public class CompraDAO {
 
         try (Connection c = ConexionDB.getConnection(); PreparedStatement stmt = c.prepareStatement(sql)) {
             stmt.setDate(1, new java.sql.Date(compra.getFecha_compra().getTime()));
-            stmt.setInt(3, compra.getID_proveedor());
+            stmt.setInt(2, compra.getCantidad());
+            stmt.setInt(3, compra.getID_Producto());
+            stmt.setInt(4, compra.getID_Proveedor());
             stmt.executeUpdate();
         }
     }

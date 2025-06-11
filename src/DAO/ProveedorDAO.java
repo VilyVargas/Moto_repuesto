@@ -63,4 +63,23 @@ public class ProveedorDAO {
             stmt.executeUpdate();
         }
     }
+
+        public Proveedor obtenerProveedorPorId(int ID_Proveedor) throws SQLException {
+        String sql = "SELECT * FROM Empleados WHERE id_empleado = ?";
+        Proveedor proveedor = null;
+
+        try (Connection c = ConexionDB.getConnection(); PreparedStatement stmt = c.prepareStatement(sql)) {
+            stmt.setInt(1, ID_Proveedor);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    proveedor = new Proveedor();
+                    proveedor.setID_Proveedor(rs.getInt("id_proveedor"));
+                    proveedor.setNombre_Prov(rs.getString("nombre_proveedor"));
+                    proveedor.setContacto(rs.getString("contacto"));
+                    proveedor.setEmail(rs.getString("email"));
+                }
+            }
+        }
+        return proveedor;
+    }
 }

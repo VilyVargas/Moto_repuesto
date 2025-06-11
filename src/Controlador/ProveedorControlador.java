@@ -7,15 +7,14 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 public class ProveedorControlador {
-    
+
     private final ProveedorDAO proveedorDAO;
-    
+
     public ProveedorControlador() {
         this.proveedorDAO = new ProveedorDAO();
     }
-    
-    
-        public void crearProveedor(String Nombre_Prov, String Contacto, String Email) {
+
+    public void crearProveedor(String Nombre_Prov, String Contacto, String Email) {
         try {
             Proveedor proveedor = new Proveedor();
             proveedor.setNombre_Prov(Nombre_Prov);
@@ -27,8 +26,8 @@ public class ProveedorControlador {
             JOptionPane.showMessageDialog(null, "Error al crear el proveedor: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-        
-            public List<Proveedor> obtenerTodosProveedores() {
+
+    public List<Proveedor> obtenerTodosProveedores() {
         try {
             return proveedorDAO.leerTodosProveedor();
         } catch (SQLException e) {
@@ -36,7 +35,18 @@ public class ProveedorControlador {
             return null;
         }
     }
-                public void actualizarProveedor(String Nombre_Prov, String Contacto, String Email) {
+
+    // Obtener un empleado por su ID
+    public Proveedor obtenerProveedorPorId(int ID_Proveedor) {
+        try {
+            return proveedorDAO.obtenerProveedorPorId(ID_Proveedor);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al buscar el empleado: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public void actualizarProveedor(String Nombre_Prov, String Contacto, String Email) {
         try {
             Proveedor proveedor = new Proveedor();
             proveedor.setNombre_Prov(Nombre_Prov);
@@ -48,8 +58,8 @@ public class ProveedorControlador {
             JOptionPane.showMessageDialog(null, "Error al actualizar la Proveedor: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-      public void eliminarProveedor(int id) {
+
+    public void eliminarProveedor(int id) {
         try {
             proveedorDAO.eliminarProveedor(id);
             JOptionPane.showMessageDialog(null, "Proveedor eliminado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);

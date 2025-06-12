@@ -4,10 +4,6 @@ import Modelo.Compra;
 import Modelo.Producto;
 import Modelo.Proveedor;
 import Modelo.DetalleCompra;
-import DAO.CompraDAO;
-import DAO.DetalleCompraDAO;
-import DAO.ProductoDAO;
-import DAO.ProveedorDAO;
 import Controlador.CompraControlador;
 import Controlador.DetalleCompraControlador;
 import Controlador.ProductoControlador;
@@ -637,7 +633,7 @@ private void eventoComboProductos() {
             }
 
             // Actualizar la compra principal
-            compraControlador.actualizarCompra(0, fechaVenta, 0, 0, 0);
+            compraControlador.actualizarCompra(0, FechaCompra, 0);
 
             // Eliminar los detalles antiguos de la compra
             List<DetalleCompra> detallesAntiguos = detalleCompraControlador.obtenerTodosDetallesCompra();
@@ -741,7 +737,7 @@ private void eventoComboProductos() {
 }
 
             // Crear y guardar la compra
-            compraControlador.crearCompra(FechaCompra, precio, proveedor, producto, detalles);
+            compraControlador.crearCompra(0, FechaCompra, 0, detalles);
 
             limpiar();
 

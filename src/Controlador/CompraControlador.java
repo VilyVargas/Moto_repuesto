@@ -2,8 +2,6 @@ package Controlador;
 
 import DAO.CompraDAO;
 import DAO.DetalleCompraDAO;
-import Modelo.Producto;
-import Modelo.Proveedor;
 import Modelo.Compra;
 import Modelo.DetalleCompra;
 import java.sql.SQLException;
@@ -23,39 +21,28 @@ public class CompraControlador {
     }
     
     // Método para crear una nueva compra con sus detalles
-   public int crearCompra(Date fechaCompra, float Preciodecom, String Nombre_Prov, String Nombre_P, List<DetalleCompra> detalles) {
-    try {
-        Compra compra = new Compra();
-        Producto producto = new Producto();
-        Proveedor proveedor = new Proveedor();
+    public void crearCompra(int ID_Compra, Date fechaCompra, int ID_Proveedor, List<DetalleCompra> detalles) {
+        try {
+            Compra compra = new Compra();
+            compra.setID_Compra(ID_Compra);
+            compra.setFecha_compra(fechaCompra);
+            compra.setID_Proveedor(ID_Proveedor);
 
-        compra.setFecha_compra(fechaCompra);
-        producto.setPreciodecom(Preciodecom);
-        proveedor.setNombre_Prov(Nombre_Prov);
-        producto.setNombre_P(Nombre_P);
+            if (ID_Compra == -1) {
+                throw new SQLException("No se pudo obtener el ID de la compra.");
+            }
 
-        int ID_Compra = compraDAO.crearCompra(compra, proveedor, producto);
+            // Asignar el id_compra a cada detalle y guardarlos
+            for (DetalleCompra detalle : detalles) {
+                detalle.setID_Compra(ID_Compra);
+                detalleCompraDAO.crearDetalleCompra(detalle);
+            }
 
-        if (ID_Compra == -1) {
-            throw new SQLException("No se pudo obtener el ID de la compra.");
+            JOptionPane.showMessageDialog(null, "Compra y detalles creados exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al crear la compra: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-
-        // Asignar el id_compra a cada detalle y guardarlos
-        for (DetalleCompra detalle : detalles) {
-            detalle.setID_Compra(ID_Compra);
-            detalleCompraDAO.crearDetalleCompra(detalle);
-        }
-
-        JOptionPane.showMessageDialog(null, "Compra y detalles creados exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-        return ID_Compra;
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(null, "Error al crear la compra: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        return -1;
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Error inesperado al crear la compra: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        return -1;
     }
-}
     
      // Método para obtener todas las compras
     public List<Compra> obtenerTodasCompras() {

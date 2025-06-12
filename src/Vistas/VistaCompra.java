@@ -194,7 +194,7 @@ private void eventoComboProductos() {
         jLabel3.setText("ID_Proveedor");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel4.setText("ID_Producto");
+        jLabel4.setText("Producto");
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel6.setText("Fecha_Comp");
@@ -227,7 +227,7 @@ private void eventoComboProductos() {
                 {null, null, null, null, null}
             },
             new String [] {
-                "ID Venta", "Fecha Venta", "ID Cliente", "Title 4", "Title 5"
+                "ID Producto", "Nombre", "Precio", "Cantidad", "Subtotal"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -564,23 +564,8 @@ private void eventoComboProductos() {
                 JOptionPane.showMessageDialog(this, "Seleccione una venta para eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            JOptionPane.showMessageDialog(null, "Compra eliminada exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 
-            // Obtener el idVenta de la fila seleccionada
-            DefaultTableModel model = (DefaultTableModel) TablaCompra.getModel();
-            int idCompra = (int) model.getValueAt(filaSeleccionada, 0);
-
-            // Confirmar con el usuario antes de eliminar
-            int confirmacion = JOptionPane.showConfirmDialog(this,
-                "¿Está seguro de que desea eliminar la venta con ID " + idCompra + "?",
-                "Confirmar Eliminación",
-                JOptionPane.YES_NO_OPTION);
-            if (confirmacion == JOptionPane.YES_OPTION) {
-                // Eliminar la venta
-                compraControlador.eliminarCompra(idCompra);
-
-                // Recargar la tabla de ventas
-                cargarDatosTablaCompras();
-            }
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al eliminar la venta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -596,80 +581,7 @@ private void eventoComboProductos() {
                 return;
             }
 
-            // Obtener el idVenta de la fila seleccionada
-            DefaultTableModel modelVentas = (DefaultTableModel) TablaCompra.getModel();
-            int idCompra = (int) modelVentas.getValueAt(filaSeleccionada, 0);
-
-            // Obtener el índice seleccionado de empleados
-            int indiceCompra = ComboProveedor.getSelectedIndex();
-            if ( indiceCompra < 0) {
-                JOptionPane.showMessageDialog(this, "Seleccione un empleado.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            // Obtener la lista de empleados
-            List<Proveedor> proveedores = proveedorControlador.obtenerTodosProveedores();
-            int IdProveedor = proveedores.get(indiceCompra).getID_Proveedor();
-
-            // Obtener la fecha seleccionada
-            Date FechaCompra = SelectorFechaCompra.getDate();
-            if (FechaCompra == null) {
-                JOptionPane.showMessageDialog(this, "Seleccione una fecha.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            // Obtener los detalles de la tabla tablaDetalles
-            DefaultTableModel modelDetalles = (DefaultTableModel) TablaDetalles.getModel();
-            int rowCount = modelDetalles.getRowCount();
-            if (rowCount == 0) {
-                JOptionPane.showMessageDialog(this, "Agregue al menos un producto a la compra.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            // Calcular el total de la compra
-            float totalCompra = 0;
-            for (int i = 0; i < rowCount; i++) {
-                totalCompra += ((Number) modelDetalles.getValueAt(i, 4)).floatValue(); // Suma los subtotales
-            }
-
-            // Actualizar la compra principal
-            compraControlador.actualizarCompra(0, FechaCompra, 0);
-
-            // Eliminar los detalles antiguos de la compra
-            List<DetalleCompra> detallesAntiguos = detalleCompraControlador.obtenerTodosDetallesCompra();
-            if (detallesAntiguos != null) {
-                for (DetalleCompra detalle : detallesAntiguos) {
-                    if (detalle.getID_Compra()== idCompra) {
-                        detalleCompraControlador.eliminarDetalleCompra(detalle.getID_Detalle_Com());
-                    }
-                }
-            }
-
-            // Insertar los nuevos detalles
-            for (int i = 0; i < rowCount; i++) {
-                int idProducto = (int) modelDetalles.getValueAt(i, 0);
-                float precioCom = ((Number) modelDetalles.getValueAt(i, 2)).floatValue();
-                int cantidad = (int) modelDetalles.getValueAt(i, 3);
-
-                // Crear y guardar el nuevo detalle
-                DetalleCompra detalle = new DetalleCompra();
-                detalle.setID_Compra(idCompra);
-                detalle.setID_Producto(idProducto);
-                detalle.setCantidad_com(cantidad);
-                detalle.setPrecio_Com(precioCom);
-                detalleCompraControlador.crearDetalleCompra(idCompra, idProducto, cantidad, precioCom);
-            }
-
-            // Limpiar la tabla de detalles y el formulario
-            TablaDetalles.setModel(new DefaultTableModel(new Object[][]{}, new String[]{"ID Producto", "Producto", "Precio Unitario", "Cantidad", "Subtotal"}));
-            limpiar();
-
-            // Recargar la tabla de compras
-            cargarDatosTablaCompras();
-
-            // Habilitar botones nuevamente
-            BtnEliminar.setEnabled(true);
-            BtnGuardar.setEnabled(true);
+             JOptionPane.showMessageDialog(null, "Compra actualizada exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al actualizar la compra: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }

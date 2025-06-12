@@ -66,7 +66,7 @@ public class ProductoDAO {
     }
     
         public Producto obtenerProductoPorId(int ID_Producto) throws SQLException {
-        String sql = "SELECT * FROM Empleados WHERE id_empleado = ?";
+        String sql = "SELECT * FROM Productos WHERE ID_Producto = ?";
         Producto producto = null;
 
         try (Connection c = ConexionDB.getConnection(); PreparedStatement stmt = c.prepareStatement(sql)) {
@@ -74,12 +74,12 @@ public class ProductoDAO {
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     producto = new Producto();
-                    producto.setID_Producto(rs.getInt("id_empleado"));
-                    producto.setNombre_P(rs.getString("primer_nombre"));
-                    producto.setDescripcion(rs.getString("segundo_nombre"));
-                    producto.setCantidad(rs.getInt("primer_apellido"));
-                    producto.setPreciodecom(rs.getFloat("segundo_apellido"));
-                    producto.setPreciodeven(rs.getFloat("celular"));
+                    producto.setID_Producto(rs.getInt("ID_Producto"));
+                    producto.setNombre_P(rs.getString("Nombre_P"));
+                    producto.setDescripcion(rs.getString("Descripcion"));
+                    producto.setCantidad(rs.getInt("Cantidad"));
+                    producto.setPreciodecom(rs.getFloat("Preciodecom"));
+                    producto.setPreciodeven(rs.getFloat("Preciodeven"));
                 }
             }
         }

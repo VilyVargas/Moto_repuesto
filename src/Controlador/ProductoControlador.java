@@ -71,7 +71,7 @@ public class ProductoControlador {
         try {
             return productoDAO.obtenerProductoPorId(ID_Producto);
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al buscar el empleado: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al buscar el producto: " + e.getMessage());
             return null;
         }
     }

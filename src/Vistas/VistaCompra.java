@@ -70,21 +70,28 @@ public class VistaCompra extends javax.swing.JPanel {
     
     private void cargarDatosTablaCompras() {
     List<Compra> compras = compraControlador.obtenerTodasCompras();
-
+    List<Producto> productos = productoControlador.obtenerTodosProductos();
+    if (productos != null)
     if (compras != null) {
 
         DefaultTableModel model = (DefaultTableModel) TablaCompra.getModel();
         model.setRowCount(0);
 
+        for (Producto p : productos)
         for (Compra c : compras) {
-
+        
             Proveedor proveedor = proveedorControlador.obtenerProveedorPorId(c.getID_Proveedor());
             String nombreProv = proveedor.getNombre_Prov()+ " " + proveedor.getContacto();
+            Producto producto =productoControlador.obtenerProductoPorId(p.getID_Producto());
+            String nombrep = producto.getNombre_P();
+            float precio = producto.getPreciodecom();
 
             Object[] row = {
                 c.getID_Compra(),
-                c.getID_Proveedor(),
+                c.getFecha_compra(),
+                precio,
                 nombreProv,
+                nombrep,
             };
             model.addRow(row);
         }
@@ -219,16 +226,16 @@ private void eventoComboProductos() {
 
         TablaDetalles.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "ID Venta", "Fecha Venta", "ID Cliente"
+                "ID Venta", "Fecha Venta", "ID Cliente", "Title 4", "Title 5"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -290,7 +297,7 @@ private void eventoComboProductos() {
                 {null, null, null, null, null}
             },
             new String [] {
-                "Id Producto", "ID Compra", "Cantidad", "Precio", "ID Detalle Compra"
+                "ID Compra", "Fecha de Compra", "Precio de Compra", "Proveedor", "Producto"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -609,8 +616,8 @@ private void eventoComboProductos() {
             int IdProveedor = proveedores.get(indiceCompra).getID_Proveedor();
 
             // Obtener la fecha seleccionada
-            Date fechaVenta = SelectorFechaCompra.getDate();
-            if (fechaVenta == null) {
+            Date FechaCompra = SelectorFechaCompra.getDate();
+            if (FechaCompra == null) {
                 JOptionPane.showMessageDialog(this, "Seleccione una fecha.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -687,14 +694,20 @@ private void eventoComboProductos() {
 
             // Obtener la lista de  empleados
             List<Proveedor> proveedores = proveedorControlador.obtenerTodosProveedores();
-            int idEmpleado = proveedores.get(indiceProveedor).getID_Proveedor();
+            int ID_Proveedor = proveedores.get(indiceProveedor).getID_Proveedor();
 
             // Obtener la fecha seleccionada
-            Date fechaVenta = SelectorFechaCompra.getDate();
-            if (fechaVenta == null) {
+            Date FechaCompra = SelectorFechaCompra.getDate();
+            if (FechaCompra == null) {
                 JOptionPane.showMessageDialog(this, "Seleccione una fecha.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            
+            float precio = Float.parseFloat(textPrecio_Com.getText());
+            
+            String producto = ComboProducto.getName();
+            
+            String proveedor = ComboProveedor.getName();
 
             // Obtener los detalles de la tabla tablaDetalles
             DefaultTableModel modelDetalles = (DefaultTableModel) TablaDetalles.getModel();
@@ -706,25 +719,29 @@ private void eventoComboProductos() {
 
             // Crear lista de detalles y calcular total
             List<DetalleCompra> detalles = new ArrayList<>();
-            float totalVenta = 0;
+            float Preciodecom = 0;
             for (int i = 0; i < rowCount; i++) {
-                int idProducto = (int) modelDetalles.getValueAt(i, 0); // ID Producto como Integer
-                float precioUnitario = ((Number) modelDetalles.getValueAt(i, 2)).floatValue(); // Precio Unitario como Float
-                int cantidad = (int) modelDetalles.getValueAt(i, 3); // Cantidad como Integer
-                float subtotal = ((Number) modelDetalles.getValueAt(i, 4)).floatValue(); // Subtotal como Float
+                int ID_Producto = (int) modelDetalles.getValueAt(i, 1);
+                float precioUnitario = ((Number) modelDetalles.getValueAt(i, 2)).floatValue();
+                int cantidad = (int) modelDetalles.getValueAt(i, 3);
+                float subtotal = ((Number) modelDetalles.getValueAt(i, 4)).floatValue();
 
-                // Crear objeto DetalleCompra
+                if (cantidad <= 0 || precioUnitario < 0) {
+                    JOptionPane.showMessageDialog(this, "Cantidad o precio no válidos en la fila " + (i + 1), "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
                 DetalleCompra detalle = new DetalleCompra();
-                detalle.setID_Producto(idProducto);
+                detalle.setID_Compra(0);
                 detalle.setCantidad_com(cantidad);
                 detalle.setPrecio_Com(precioUnitario);
                 detalles.add(detalle);
 
-                totalVenta += subtotal;
-            }
+                Preciodecom += subtotal;
+}
 
             // Crear y guardar la compra
-            compraControlador.crearCompra(0, fechaVenta, 0, 0, 0, detalles);
+            compraControlador.crearCompra(FechaCompra, precio, proveedor, producto, detalles);
 
             limpiar();
 

@@ -14,7 +14,7 @@ public class Producto {
     private String Descripcion;
     private int Cantidad;
     private float Preciodecom;
-    private float preciodeven;
+    private float Preciodeven;
 
     public Producto() {
     }
@@ -25,7 +25,7 @@ public class Producto {
         this.Descripcion = Descripcion;
         this.Cantidad = Cantidad;
         this.Preciodecom = Preciodecom;
-        this.preciodeven = preciodeven;
+        this.Preciodeven = preciodeven;
     }
 
     public int getID_Producto() {
@@ -69,11 +69,11 @@ public class Producto {
     }
 
     public float getPreciodeven() {
-        return preciodeven;
+        return Preciodeven;
     }
 
     public void setPreciodeven(float preciodeven) {
-        this.preciodeven = preciodeven;
+        this.Preciodeven = preciodeven;
     }
     
 }
